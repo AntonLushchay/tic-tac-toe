@@ -1,0 +1,30 @@
+/* filepath: c:\Users\avlus\dev\tic-tac-toe\test-styles.scss */
+$primary-color: #333;
+
+.example {
+	color: $primary-color;
+	padding: 10px; /* Double semicolon error */
+
+	&--modifier {
+		background-color: RED; /* Uppercase hex value */
+	}
+
+	// Nesting too deep (beyond 3-4 levels)
+	& {
+		& {
+			& {
+				& {
+					& {
+						color: pink;
+					}
+				}
+			}
+		}
+	}
+}
+
+// Invalid Sass syntax
+@mixin wrong($param) {
+	width: $param;
+	height: $param; /* Missing semicolon on line above */
+}

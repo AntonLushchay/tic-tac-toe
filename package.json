@@ -1,0 +1,33 @@
+{
+	"name": "tic-tac-toe",
+	"version": "1.0.0",
+	"description": "learning project",
+	"main": "index.html",
+	"scripts": {
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
+		"lint:css": "stylelint \"**/*.css\"",
+		"lint:scss": "stylelint \"**/*.scss\"",
+		"lint:styles": "stylelint \"**/*.{css,scss}\"",
+		"lint:styles:fix": "stylelint \"**/*.{css,scss}\" --fix"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@github.com/AntonLushchay/tic-tac-toe.git"
+	},
+	"author": "Choleric",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/AntonLushchay/tic-tac-toe/issues"
+	},
+	"homepage": "https://github.com/AntonLushchay/tic-tac-toe#readme",
+	"devDependencies": {
+		"prettier": "^3.5.3",
+		"stylelint": "^16.20.0",
+		"stylelint-config-recess-order": "^6.0.0",
+		"stylelint-config-recommended-scss": "^15.0.1",
+		"stylelint-config-standard": "^38.0.0",
+		"stylelint-order": "^7.0.0",
+		"stylelint-prettier": "^5.0.3"
+	}
+}
