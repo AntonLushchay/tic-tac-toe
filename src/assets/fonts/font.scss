@@ -1,0 +1,11 @@
+/* src/assets/fonts/font.scss */
+
+$font-stack-sans:
+	'Segoe UI', 'Roboto', 'Helvetica Neue', arial, 'Liberation Sans', sans-serif;
+$font-stack-serif: 'Georgia', 'Times New Roman', times, serif;
+$font-stack-mono:
+	'Fira Mono', 'Consolas', 'Liberation Mono', menlo, courier, monospace;
+
+body {
+	font-family: $font-stack-sans;
+}

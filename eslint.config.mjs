@@ -1,4 +1,4 @@
-import { defineConfig } from 'eslint/config';
+import { defineConfig } from 'eslint/config'; //кажется это баг с подчеркиванием
 import js from '@eslint/js';
 import globals from 'globals';
 import importPlugin from 'eslint-plugin-import';
@@ -6,6 +6,9 @@ import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 
 export default defineConfig([
+	{
+		ignores: ['dist/**/*', 'node_modules/**/*'],
+	},
 	prettierConfig,
 	{
 		files: ['**/*.{js,mjs,cjs}'],
