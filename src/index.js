@@ -1,14 +1,19 @@
-import './styles.scss'; // Импортируем наши стили
-// import logo from './assets/logo.png'; // Пример импорта изображения
+import './styles.scss';
 
-console.log('Webpack работает!');
-console.log('Это современный JavaScript!');
+// import bannerJpg from './assets/img/banner.jpg';
+import bannerWebp from './assets/img/banner.jpg?as=webp';
+import bannerAvif from './assets/img/banner.jpg?as=avif';
+import meWebp from './assets/img/me.png?as=webp';
+import meAvif from './assets/img/me.png?as=avif';
 
-// Пример использования новой фичи JS (например, оператор нулевого слияния)
-const someValue = null;
-const defaultValue = someValue ?? 'Значение по умолчанию';
-console.log(defaultValue);
+// Используй переменные в шаблоне:
+const picturElement = document.querySelector('.banner-picture-first');
 
-// Пример использования компонента, если у тебя есть React/Vue
-// import App from './App';
-// ReactDOM.render(<App />, document.getElementById('root'));
+picturElement.children[0].srcset = bannerWebp;
+picturElement.children[1].srcset = bannerAvif;
+
+const meElement = document.querySelector('.banner-picture-second');
+meElement.children[0].srcset = meWebp;
+meElement.children[1].srcset = meAvif;
+
+console.log('Application started successfully!');

@@ -10,7 +10,16 @@
 		<h1>Привет от Webpack!</h1>
 		<p>Testovy test</p>
 		<a href="./pages/about.html">переход на эбоут</a>
-		<img src="./assets/img/me.png" alt="Webpack Logo" />
+		<picture class="banner-picture-first">
+			<source srcset="" type="image/avif" />
+			<source srcset="" type="image/webp" />
+			<img src="./assets/img/banner.jpg" alt="Banner" />
+		</picture>
+		<picture class="banner-picture-second">
+			<source srcset="" type="image/avif" />
+			<source srcset="" type="image/webp" />
+			<img src="./assets/img/me.png" alt="Me" />
+		</picture>
 		<div class="test-div"></div>
 	</body>
 </html>

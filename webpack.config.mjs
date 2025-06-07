@@ -3,82 +3,149 @@ import { fileURLToPath } from 'url';
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
+// import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default (env, argv) => {
 	const isProduction = argv.mode === 'production';
+
+	const basePlugins = [
+		new HtmlWebpackPlugin({
+			template: './src/index.html',
+			filename: 'index.html',
+			chunks: ['main'],
+			minify: isProduction
+				? {
+						removeComments: true,
+						collapseWhitespace: true,
+						removeRedundantAttributes: true,
+						useShortDoctype: true,
+						removeEmptyAttributes: true,
+						removeStyleLinkTypeAttributes: true,
+						keepClosingSlash: true,
+						minifyCSS: true,
+						minifyJS: true,
+					}
+				: false,
+		}),
+		new HtmlWebpackPlugin({
+			template: './src/pages/about.html',
+			filename: './pages/about.html',
+			chunks: ['about'],
+			minify: isProduction
+				? {
+						removeComments: true,
+						collapseWhitespace: true,
+						removeRedundantAttributes: true,
+						useShortDoctype: true,
+						removeEmptyAttributes: true,
+						removeStyleLinkTypeAttributes: true,
+						keepClosingSlash: true,
+						minifyCSS: true,
+						minifyJS: true,
+					}
+				: false,
+		}),
+		new MiniCssExtractPlugin({
+			filename: isProduction
+				? '[name].[contenthash:8].css'
+				: '[name].css',
+			chunkFilename: isProduction
+				? '[id].[contenthash:8].css'
+				: '[id].css',
+		}),
+		// // Копируем и обрабатываем изображения
+		// new CopyWebpackPlugin({
+		// 	patterns: [
+		// 		{
+		// 			from: 'src/assets/img',
+		// 			to: 'assets/images',
+		// 			noErrorOnMissing: true,
+		// 		},
+		// 	],
+		// }),
+	];
+
 	return {
 		mode: isProduction ? 'production' : 'development',
 
-		// Кэширование для ускорения пересборки
-		cache: {
-			type: 'filesystem',
-			cacheDirectory: path.resolve(__dirname, '.webpack-cache'),
-		},
+		// Кэш отключен по причине бага:
+		// https://github.com/webpack-contrib/image-minimizer-webpack-plugin/issues/417
+		// https://github.com/webpack/webpack/issues/14532
+		// cache: {
+		// 	type: 'filesystem',
+		// 	cacheDirectory: path.resolve(__dirname, '.webpack-cache'),
+		// 	buildDependencies: {
+		// 		config: [__filename],
+		// 	},
+		// },
 
 		entry: {
 			main: './src/index.js',
+			about: './src/pages/about.js',
 		},
 		output: {
 			path: path.resolve(__dirname, 'dist'),
-			filename: isProduction ? '[name].[contenthash].js' : '[name].js',
-			assetModuleFilename: (pathData) => {
-				const filepath = path
-					.dirname(pathData.filename)
-					.split('/')
-					.slice(1);
-				if (isProduction) {
-					return `${filepath.join('/')}/[name].[hash][ext][query]`;
-				} else {
-					return `${filepath.join('/')}/[name][ext][query]`;
-				}
-			},
+			filename: isProduction ? '[name].[contenthash:8].js' : '[name].js',
+			chunkFilename: isProduction
+				? '[name].[contenthash:8].chunk.js'
+				: '[name].chunk.js',
+			publicPath: '/',
+			assetModuleFilename: isProduction
+				? 'assets/images/[name].[contenthash][ext][query]'
+				: 'assets/images/[name][ext][query]',
 			clean: true,
+			environment: {
+				arrowFunction: true,
+				bigIntLiteral: false,
+				const: true,
+				destructuring: true,
+				dynamicImport: true,
+				forOf: true,
+				module: true,
+			},
 		},
-
 		optimization: {
-			minimize: isProduction, // Минификация только в production и только JS
-			usedExports: isProduction, // Tree-shaking только в production
+			minimize: isProduction,
+			usedExports: true,
 			sideEffects: false,
-			splitChunks: isProduction
-				? {
+			runtimeChunk: isProduction ? 'single' : false,
+			splitChunks: {
+				chunks: 'all',
+				minSize: 20000,
+				maxSize: 244000,
+				cacheGroups: {
+					default: {
+						minChunks: 2,
+						priority: -20,
+						reuseExistingChunk: true,
+					},
+					vendor: {
+						test: /[\\/]node_modules[\\/]/,
+						name: 'vendors',
+						priority: -10,
 						chunks: 'all',
-						minSize: 20000, // Минимальный размер чанка 20KB
-						maxSize: 244000, // Максимальный размер чанка 244KB
-						cacheGroups: {
-							vendor: {
-								test: /[\\/]node_modules[\\/]/,
-								name: 'vendors',
-								chunks: 'all',
-								priority: 10,
-								reuseExistingChunk: true,
-							},
-							common: {
-								name: 'common',
-								minChunks: 2,
-								chunks: 'all',
-								priority: 5,
-								reuseExistingChunk: true,
-							},
-						},
-					}
-				: false,
-
-			// Кэширование модулей для лучшей производительности
+						enforce: true,
+						reuseExistingChunk: true,
+					},
+					styles: {
+						name: 'styles',
+						test: /\.(css|scss|sass)$/,
+						chunks: 'all',
+						enforce: true,
+					},
+				},
+			},
 			moduleIds: isProduction ? 'deterministic' : 'named',
 			chunkIds: isProduction ? 'deterministic' : 'named',
 		},
-
 		resolve: {
-			// Ускоряем поиск модулей
-			extensions: ['.js', '.json'],
+			extensions: ['.js', '.mjs', '.json'],
 			modules: ['node_modules'],
-			// Кэш для резолвинга
-			cache: !isProduction,
 		},
-
 		module: {
 			rules: [
 				{
@@ -92,21 +159,17 @@ export default (env, argv) => {
 									'@babel/preset-env',
 									{
 										debug: !isProduction,
-										// Только необходимые полифиллы
 										useBuiltIns: 'usage',
 										corejs: 3,
-										// Более агрессивная оптимизация в production
 										modules: false,
 									},
 								],
 							],
-							cacheDirectory: !isProduction,
-							cacheCompression: false, // Быстрее без сжатия кэша
+							cacheDirectory: true,
+							cacheCompression: false,
 						},
 					},
 				},
-
-				// HTML Loader - обрабатывает картинки в HTML
 				{
 					test: /\.html$/i,
 					loader: 'html-loader',
@@ -114,13 +177,11 @@ export default (env, argv) => {
 					options: {
 						sources: {
 							list: [
-								// Картинки
 								{
 									tag: 'img',
 									attribute: 'src',
 									type: 'src',
 								},
-								// Иконки
 								{
 									tag: 'link',
 									attribute: 'href',
@@ -132,13 +193,11 @@ export default (env, argv) => {
 										);
 									},
 								},
-								// HTML файлы в ссылках
 								{
 									tag: 'a',
 									attribute: 'href',
 									type: 'src',
 									filter: (tag, attribute, attributes) => {
-										// Обрабатываем только .html файлы
 										return /\.html$/.test(attributes.href);
 									},
 								},
@@ -152,23 +211,18 @@ export default (env, argv) => {
 						MiniCssExtractPlugin.loader,
 						{
 							loader: 'css-loader',
+							options: {
+								importLoaders: 2,
+								modules: {
+									auto: true,
+									localIdentName: isProduction
+										? '[hash:base64:5]'
+										: '[name]__[local]--[hash:base64:5]',
+								},
+							},
 						},
 						{
 							loader: 'postcss-loader',
-							options: {
-								postcssOptions: {
-									plugins: [
-										[
-											'autoprefixer',
-											{
-												grid: 'autoplace', // Автоматическая поддержка CSS Grid
-											},
-										],
-										// Можно добавить больше плагинов в будущем
-										// ...(isProduction ? [['cssnano', { preset: 'default' }]] : []),
-									],
-								},
-							},
 						},
 						{
 							loader: 'sass-loader',
@@ -182,82 +236,78 @@ export default (env, argv) => {
 						},
 					],
 				},
-
 				{
-					test: /\.(png|svg|jpg|jpeg|gif|woff|woff2|eot|ttf|otf)$/i,
-					type: 'asset',
-					parser: {
-						dataUrlCondition: {
-							maxSize: 8 * 1024, // 8KB - если меньше, то встроить в base64
-						},
-					},
+					test: /\.(png|svg|jpg|jpeg|gif)$/i,
+					type: 'asset/resource',
+				},
+				{
+					test: /\.(woff|woff2|eot|ttf|otf)$/i,
+					type: 'asset/resource',
 				},
 			],
 		},
-
-		plugins: [
-			new HtmlWebpackPlugin({
-				template: './src/index.html',
-				filename: 'index.html',
-				chunks: ['main'],
-				minify: isProduction
-					? {
-							removeComments: true,
-							collapseWhitespace: true,
-							removeRedundantAttributes: true,
-							useShortDoctype: true,
-							removeEmptyAttributes: true,
-							removeStyleLinkTypeAttributes: true,
-							keepClosingSlash: true,
-							minifyCSS: true,
-							minifyJS: true,
-						}
-					: false,
-			}),
-			new HtmlWebpackPlugin({
-				template: './src/pages/about.html',
-				filename: './pages/about.html',
-				chunks: [],
-				minify: isProduction
-					? {
-							removeComments: true,
-							collapseWhitespace: true,
-							removeRedundantAttributes: true,
-							useShortDoctype: true,
-							removeEmptyAttributes: true,
-							removeStyleLinkTypeAttributes: true,
-							keepClosingSlash: true,
-							minifyCSS: true,
-							minifyJS: true,
-						}
-					: false,
-			}),
-
-			new MiniCssExtractPlugin({
-				filename: isProduction
-					? '[name].[contenthash].css'
-					: '[name].css',
-			}),
-		].filter(Boolean),
-
+		plugins: isProduction
+			? [
+					...basePlugins,
+					// Минимизация и генерация форматов для production
+					new ImageMinimizerPlugin({
+						test: /\.(jpe?g|png|gif|svg)$/i,
+						minimizer: {
+							implementation: ImageMinimizerPlugin.sharpMinify,
+							options: {
+								encodeOptions: {
+									jpeg: { quality: 80 },
+									png: { quality: 80 },
+									gif: {},
+								},
+							},
+						},
+						// Генерация WebP и AVIF
+						generator: [
+							{
+								// type: 'asset',
+								preset: 'webp',
+								implementation:
+									ImageMinimizerPlugin.sharpGenerate,
+								options: {
+									encodeOptions: {
+										webp: { quality: 75 },
+									},
+								},
+							},
+							{
+								// type: 'asset',
+								preset: 'avif',
+								implementation:
+									ImageMinimizerPlugin.sharpGenerate,
+								options: {
+									encodeOptions: {
+										avif: { quality: 70 },
+									},
+								},
+							},
+						],
+					}),
+				]
+			: basePlugins,
 		devServer: {
-			static: {
-				directory: path.join(__dirname, 'dist'),
-			},
-			watchFiles: ['src/**/*.html'],
 			compress: true,
-			port: 3000,
 			open: true,
 			hot: true,
 			devMiddleware: {
 				writeToDisk: true,
 				stats: 'minimal',
 			},
-			client: {
-				progress: true, // Показываем прогресс компиляции
-			},
 		},
-
 		devtool: isProduction ? false : 'source-map',
+		performance: {
+			hints: isProduction ? 'warning' : false,
+			maxEntrypointSize: 250000,
+			maxAssetSize: 250000,
+		},
+		stats: 'normal',
+		infrastructureLogging: {
+			level: 'info',
+		},
 	};
 };
