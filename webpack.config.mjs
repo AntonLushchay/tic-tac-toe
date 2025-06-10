@@ -4,7 +4,6 @@ import { fileURLToPath } from 'url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
-// import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,24 +30,6 @@ export default (env, argv) => {
 					}
 				: false,
 		}),
-		new HtmlWebpackPlugin({
-			template: './src/pages/about.html',
-			filename: './pages/about.html',
-			chunks: ['about'],
-			minify: isProduction
-				? {
-						removeComments: true,
-						collapseWhitespace: true,
-						removeRedundantAttributes: true,
-						useShortDoctype: true,
-						removeEmptyAttributes: true,
-						removeStyleLinkTypeAttributes: true,
-						keepClosingSlash: true,
-						minifyCSS: true,
-						minifyJS: true,
-					}
-				: false,
-		}),
 		new MiniCssExtractPlugin({
 			filename: isProduction
 				? '[name].[contenthash:8].css'
@@ -57,16 +38,6 @@ export default (env, argv) => {
 				? '[id].[contenthash:8].css'
 				: '[id].css',
 		}),
-		// // Копируем и обрабатываем изображения
-		// new CopyWebpackPlugin({
-		// 	patterns: [
-		// 		{
-		// 			from: 'src/assets/img',
-		// 			to: 'assets/images',
-		// 			noErrorOnMissing: true,
-		// 		},
-		// 	],
-		// }),
 	];
 
 	return {
@@ -84,8 +55,7 @@ export default (env, argv) => {
 		// },
 
 		entry: {
-			main: './src/index.js',
-			about: './src/pages/about.js',
+			main: './src/app.js',
 		},
 		output: {
 			path: path.resolve(__dirname, 'dist'),
@@ -173,7 +143,6 @@ export default (env, argv) => {
 				{
 					test: /\.html$/i,
 					loader: 'html-loader',
-					exclude: /node_modules/,
 					options: {
 						sources: {
 							list: [
@@ -191,14 +160,6 @@ export default (env, argv) => {
 											attributes.rel &&
 											attributes.rel.includes('icon')
 										);
-									},
-								},
-								{
-									tag: 'a',
-									attribute: 'href',
-									type: 'src',
-									filter: (tag, attribute, attributes) => {
-										return /\.html$/.test(attributes.href);
 									},
 								},
 							],
@@ -292,6 +253,7 @@ export default (env, argv) => {
 			: basePlugins,
 		devServer: {
 			compress: true,
+			watchFiles: ['src/**/*'],
 			open: true,
 			hot: true,
 			devMiddleware: {
