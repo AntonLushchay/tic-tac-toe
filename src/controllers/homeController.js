@@ -10,6 +10,12 @@ class HomeController {
 	show() {
 		this.view.render();
 	}
+
+	cleanup() {
+		if (this.view) {
+			this.view.cleanup();
+		}
+	}
 }
 
 export default HomeController;

@@ -1,5 +1,5 @@
 import HomeController from './homeController';
-// import GameController from './gameController';
+import GameController from './gameController';
 // import SettingsController from './settingsController';
 
 class AppController {
@@ -7,6 +7,7 @@ class AppController {
 	homeController;
 	gameController;
 	settingsController;
+	currentController;
 
 	constructor() {
 		this.appRoot = document.getElementById('app-root');
@@ -17,8 +18,8 @@ class AppController {
 		}
 
 		this.homeController = new HomeController(this.appRoot);
-		// this.gameController = new GameController();
-		// this.settingsController = new SettingsController();
+		this.gameController = new GameController(this.appRoot);
+		// this.settingsController = new SettingsController(this.appRoot);
 
 		window.addEventListener('hashchange', this.handleHashChange.bind(this));
 		this.handleHashChange();
@@ -26,20 +27,44 @@ class AppController {
 
 	handleHashChange() {
 		const hash = window.location.hash.slice(1);
+
+		if (
+			this.currentController &&
+			typeof this.currentController.cleanup === 'function'
+		) {
+			this.currentController.cleanup();
+		}
+
 		console.log('hash', hash);
+
+		let nextController;
 		switch (hash) {
-			case '':
-				this.homeController.show();
-				break;
 			case 'game':
-				this.gameController.show();
+				nextController = this.gameController;
 				break;
+
 			case 'settings':
-				this.settingsController.show();
+				nextController = this.settingsController;
 				break;
+
+			case '':
 			default:
-				this.homeController.show();
+				nextController = this.homeController;
 				break;
+		}
+
+		console.log('nextController', nextController);
+
+		if (nextController && nextController.show) {
+			nextController.show();
+			console.log('запустили некст контроллер', nextController);
+			this.currentController = nextController;
+		} else {
+			console.warn(
+				`AppController Error: No controller found for hash: ${hash}. Defaulting to home view.`,
+			);
+			this.homeController.show();
+			this.currentController = this.homeController;
 		}
 	}
 }

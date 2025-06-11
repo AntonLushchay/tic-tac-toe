@@ -69,7 +69,7 @@ p {
    Внешний отступ вниз для параграфа без атрибута class,
    который расположен не последним среди своих соседних элементов
   */
-p:where(:not([class]):not(:last-child)) {
+p:where(:not([class], :last-child)) {
 	margin-bottom: var(--paragraphMarginBottom);
 }
 
@@ -149,7 +149,7 @@ label {
    атрибут fill со значением 'none' или начинается с 'url')
   */
 :where([fill]:not([fill='none'], [fill^='url'])) {
-	fill: currentColor;
+	fill: currentcolor;
 }
 
 /**
@@ -158,7 +158,7 @@ label {
    атрибут stroke со значением 'none')
   */
 :where([stroke]:not([stroke='none'], [stroke^='url'])) {
-	stroke: currentColor;
+	stroke: currentcolor;
 }
 
 /**
@@ -173,7 +173,7 @@ svg * {
   */
 :where(table) {
 	border-collapse: collapse;
-	border-color: currentColor;
+	border-color: currentcolor;
 }
 
 /**
