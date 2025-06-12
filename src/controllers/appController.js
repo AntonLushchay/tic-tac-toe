@@ -35,8 +35,6 @@ class AppController {
 			this.currentController.cleanup();
 		}
 
-		console.log('hash', hash);
-
 		let nextController;
 		switch (hash) {
 			case 'game':
@@ -53,11 +51,8 @@ class AppController {
 				break;
 		}
 
-		console.log('nextController', nextController);
-
 		if (nextController && nextController.show) {
 			nextController.show();
-			console.log('запустили некст контроллер', nextController);
 			this.currentController = nextController;
 		} else {
 			console.warn(

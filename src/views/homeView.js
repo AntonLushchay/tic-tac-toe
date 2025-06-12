@@ -4,10 +4,12 @@ class HomeView {
 	template;
 	appRoot;
 	buttons;
+	controller;
 
-	constructor(appRoot) {
+	constructor(appRoot, controller) {
 		this.template = homeTemplate;
 		this.appRoot = appRoot;
+		this.controller = controller;
 	}
 
 	render() {
@@ -24,27 +26,8 @@ class HomeView {
 
 	handleButtonClick = (event) => {
 		const buttonId = event.currentTarget.id;
-		switch (buttonId) {
-			case 'playButton':
-				this.handlePlayButtonClick();
-				break;
-			case 'settingsButton':
-				this.handleSettingsButtonClick();
-				break;
-			default:
-				console.warn(`Unknown button clicked: ${buttonId}`);
-		}
+		this.controller.navigateTo(buttonId);
 	};
-
-	handlePlayButtonClick() {
-		window.location.hash = 'game';
-		console.log('Play button clicked, navigating to game view.');
-	}
-
-	handleSettingsButtonClick() {
-		window.location.hash = 'settings';
-		console.log('Settings button clicked, navigating to settings view.');
-	}
 
 	cleanup() {
 		if (this.buttons && this.buttons.length > 0) {

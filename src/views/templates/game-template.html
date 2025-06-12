@@ -1,12 +1,24 @@
 <h1>Game field</h1>
+<div>Current Player: <span class="current-player">X</span></div>
 <div class="tic-tac-toe-board">
-	<div class="cell" data-cell="0"></div>
-	<div class="cell" data-cell="1"></div>
-	<div class="cell" data-cell="2"></div>
-	<div class="cell" data-cell="3"></div>
-	<div class="cell" data-cell="4"></div>
-	<div class="cell" data-cell="5"></div>
-	<div class="cell" data-cell="6"></div>
-	<div class="cell" data-cell="7"></div>
-	<div class="cell" data-cell="8"></div>
+	<div class="cell" data-js-game-cell="0"></div>
+	<div class="cell" data-js-game-cell="1"></div>
+	<div class="cell" data-js-game-cell="2"></div>
+	<div class="cell" data-js-game-cell="3"></div>
+	<div class="cell" data-js-game-cell="4"></div>
+	<div class="cell" data-js-game-cell="5"></div>
+	<div class="cell" data-js-game-cell="6"></div>
+	<div class="cell" data-js-game-cell="7"></div>
+	<div class="cell" data-js-game-cell="8"></div>
+</div>
+<button class="restart-button" id="restartButton" data-js-game-button>
+	Restart
+</button>
+<button class="back-button" id="backButton" data-js-game-button>Back</button>
+
+<div class="game-result" id="gameResult">
+	<p class="result-message"></p>
+	<button class="close-result" id="closeResultButton" data-js-close-result>
+		Close
+	</button>
 </div>
