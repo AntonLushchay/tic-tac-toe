@@ -1,9 +1,9 @@
-import pencilSvg from '../assets/svg/pencil-filter.svg';
+// import pencilSvg from '../assets/svg/pencil-filter.svg';
 
 import gameTemplate from './templates/game-template.html';
 
 class GameView {
-	penciline = pencilSvg;
+	// penciline = pencilSvg;
 	template = gameTemplate;
 	appRoot;
 	controller;
@@ -11,6 +11,7 @@ class GameView {
 	cells = [];
 	currentPlayerElem;
 	winnerElem;
+	winDialog;
 	status;
 
 	constructor(appRoot, controller) {
@@ -20,10 +21,8 @@ class GameView {
 
 	render(state) {
 		this.appRoot.innerHTML = this.template;
-		this.bindEvents();
-
-		this.currentPlayerElem = this.appRoot.querySelector('.current-player');
-		this.winnerElem = this.appRoot.querySelector('.result-message');
+		this.findElements();
+		this.setListeners();
 
 		this.setCells(state.board);
 		this.setCurrentPlayer(state.turn);
@@ -38,13 +37,25 @@ class GameView {
 		this.checkStatus(state.status);
 	}
 
-	bindEvents() {
+	findElements() {
+		this.currentPlayerElem = this.appRoot.querySelector(
+			'.game__current-player-name',
+		);
+		this.cells = this.appRoot.querySelectorAll('[data-js-game-cell]');
 		this.buttons = this.appRoot.querySelectorAll('[data-js-game-button]');
+		this.winnerDialogElem = this.appRoot.querySelector(
+			'[data-js-game-dialog]',
+		);
+		this.winnerElem = this.winnerDialogElem.querySelector(
+			'[data-js-dialog-winner]',
+		);
+	}
+
+	setListeners() {
 		this.buttons.forEach((button) => {
 			button.addEventListener('click', this.handleButtonClick);
 		});
 
-		this.cells = this.appRoot.querySelectorAll('[data-js-game-cell]');
 		this.cells.forEach((cell) => {
 			cell.addEventListener('click', this.handleCellClick);
 		});
@@ -53,7 +64,7 @@ class GameView {
 	handleButtonClick = (event) => {
 		const buttonId = event.currentTarget.id;
 		console.log('Button clicked:', buttonId);
-		this.controller.navigateTo(buttonId);
+		this.controller.buttonAction(buttonId);
 	};
 
 	handleCellClick = (event) => {
@@ -66,6 +77,8 @@ class GameView {
 		console.log('Cell clicked:', cellID);
 		this.controller.makeMove(cellID);
 	};
+
+	hideDialog() {}
 
 	setCells(board) {
 		this.cells.forEach((cell, index) => {

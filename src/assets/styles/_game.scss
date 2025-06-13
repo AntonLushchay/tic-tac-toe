@@ -1,31 +1,118 @@
-.tic-tac-toe-board {
-	display: grid;
-	grid-template-rows: repeat(3, 100px);
-	grid-template-columns: repeat(3, 100px);
-	gap: 8px;
-	padding: 16px;
-	background: #222;
-	border-radius: 12px;
-	box-shadow: 0 2px 12px rgb(0 0 0 / 15%);
+.game {
+	max-width: 1440px;
+	margin: 0 auto;
 
-	.cell {
-		display: flex;
-		align-items: center;
-		justify-content: center;
+	&__title {
+		margin: 20px 0;
 		font-size: 2.5rem;
 		font-weight: bold;
 		color: #333;
-		cursor: pointer;
-		background: #fff;
-		border-radius: 8px;
-		transition: background 0.2s;
+		text-align: center;
+	}
 
-		&:hover {
-			background: #f0f0f0;
+	&__current-player {
+		font-size: 1.5rem;
+		color: #666;
+		text-align: center;
+	}
+
+	&__board {
+		position: relative;
+		display: grid;
+		grid-template-rows: repeat(3, 100px);
+		grid-template-columns: repeat(3, 100px);
+		gap: 4px;
+		justify-content: center;
+		width: fit-content;
+		margin: 0 auto;
+		// background: #222;		border-radius: 12px;
+		&::after {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			content: '';
+			background:
+				linear-gradient(
+					90deg,
+					transparent 33%,
+					rgb(96 95 95) 33%,
+					rgb(96 95 95) calc(33% + 4px),
+					transparent calc(33% + 4px)
+				),
+				linear-gradient(
+					90deg,
+					transparent 66%,
+					rgb(96 95 95) 66%,
+					rgb(96 95 95) calc(66% + 4px),
+					transparent calc(66% + 4px)
+				),
+				linear-gradient(
+					0deg,
+					transparent 33%,
+					rgb(96 95 95) 33%,
+					rgb(96 95 95) calc(33% + 4px),
+					transparent calc(33% + 4px)
+				),
+				linear-gradient(
+					0deg,
+					transparent 66%,
+					rgb(96 95 95) 66%,
+					rgb(96 95 95) calc(66% + 4px),
+					transparent calc(66% + 4px)
+				);
+			filter: url('#pencil-sketch-filter');
 		}
 	}
 
-	.game-result {
-		display: none;
+	&__cell {
+		background: transparent;
+
+		&:hover {
+			background: #d4d0d0;
+		}
+
+		&:active {
+			background: #4a4a4a;
+		}
 	}
 }
+
+.dialog {
+	width: 200px;
+	height: 200px;
+
+	&::backdrop {
+		background: rgb(0 0 0 / 50%);
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 20px;
+		background: #fff;
+		border-radius: 12px;
+		box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+	}
+}
+
+// .cell {
+// 	display: flex;
+// 	align-items: center;
+// 	justify-content: center;
+// 	font-size: 2.5rem;
+// 	font-weight: bold;
+// 	color: #333;
+// 	cursor: pointer;
+// 	background: #fff;
+// 	border-radius: 8px;
+// 	transition: background 0.2s;
+
+// 	&:hover {
+// 		background: #f0f0f0;
+// 	}
+// }

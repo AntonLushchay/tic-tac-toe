@@ -20,7 +20,7 @@ class GameController {
 		this.view.updateView(state);
 	};
 
-	navigateTo(buttonId) {
+	buttonAction(buttonId) {
 		switch (buttonId) {
 			case 'restartButton':
 				window.location.hash = 'game';
@@ -29,6 +29,9 @@ class GameController {
 			case 'backButton':
 				window.location.hash = 'home';
 				this.model.resetBoard();
+				break;
+			case 'dialogCloseButton':
+				this.view.hideDialog();
 				break;
 			default:
 				console.warn(`Unknown button clicked: ${buttonId}`);

@@ -64,9 +64,20 @@ export default (env, argv) => {
 				? '[name].[contenthash:8].chunk.js'
 				: '[name].chunk.js',
 			publicPath: '/',
-			assetModuleFilename: isProduction
-				? 'assets/images/[name].[contenthash][ext][query]'
-				: 'assets/images/[name][ext][query]',
+			assetModuleFilename: (pathData) => {
+				const filepath = path
+					.dirname(pathData.filename)
+					.split('/')
+					.slice(1);
+				if (isProduction) {
+					return `${filepath.join('/')}/[name].[contenthash][ext][query]`;
+				} else {
+					return `${filepath.join('/')}/[name][ext][query]`;
+				}
+			},
+			// assetModuleFilename: isProduction
+			// 	? '[path][name].[contenthash][ext][query]'
+			// 	: '[path][name][ext][query]',
 			clean: true,
 			environment: {
 				arrowFunction: true,
@@ -161,6 +172,11 @@ export default (env, argv) => {
 											attributes.rel.includes('icon')
 										);
 									},
+								},
+								{
+									tag: 'use',
+									attribute: 'href', // или 'xlink:href' если используется
+									type: 'src', // Указывает html-loader обрабатывать это как ссылку на ресурс
 								},
 							],
 						},

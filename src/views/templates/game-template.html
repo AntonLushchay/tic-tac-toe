@@ -1,24 +1,77 @@
-<h1>Game field</h1>
-<div>Current Player: <span class="current-player">X</span></div>
-<div class="tic-tac-toe-board">
-	<div class="cell" data-js-game-cell="0"></div>
-	<div class="cell" data-js-game-cell="1"></div>
-	<div class="cell" data-js-game-cell="2"></div>
-	<div class="cell" data-js-game-cell="3"></div>
-	<div class="cell" data-js-game-cell="4"></div>
-	<div class="cell" data-js-game-cell="5"></div>
-	<div class="cell" data-js-game-cell="6"></div>
-	<div class="cell" data-js-game-cell="7"></div>
-	<div class="cell" data-js-game-cell="8"></div>
-</div>
-<button class="restart-button" id="restartButton" data-js-game-button>
-	Restart
-</button>
-<button class="back-button" id="backButton" data-js-game-button>Back</button>
-
-<div class="game-result" id="gameResult">
-	<p class="result-message"></p>
-	<button class="close-result" id="closeResultButton" data-js-close-result>
-		Close
+<div class="game">
+	<h1 class="game__title">Game field</h1>
+	<div class="game__current-player">
+		Current Player: <span class="game__current-player-name">X</span>
+	</div>
+	<div class="game__board">
+		<div class="game__cell" data-js-game-cell="0"></div>
+		<div class="game__cell" data-js-game-cell="1"></div>
+		<div class="game__cell" data-js-game-cell="2"></div>
+		<div class="game__cell" data-js-game-cell="3"></div>
+		<div class="game__cell" data-js-game-cell="4"></div>
+		<div class="game__cell" data-js-game-cell="5"></div>
+		<div class="game__cell" data-js-game-cell="6"></div>
+		<div class="game__cell" data-js-game-cell="7"></div>
+		<div class="game__cell" data-js-game-cell="8"></div>
+	</div>
+	<button class="game__restart-button" id="restartButton" data-js-game-button>
+		Restart
 	</button>
+	<button class="game__back-button" id="backButton" data-js-game-button>
+		Back
+	</button>
+
+	<dialog class="game__dialog dialog" data-js-game-dialog>
+		<div class="dialog__content">
+			<p class="dialog__game-winner">
+				Player
+				<span class="dialog__player-name" data-js-dialog-winner
+					>temporary text</span
+				>
+				has won!
+			</p>
+			<button
+				class="dialog__close-button"
+				id="dialogCloseButton"
+				data-js-game-button
+			>
+				Close
+			</button>
+		</div>
+	</dialog>
+	<!-- SVG определения для фильтров -->
+	<svg>
+		<defs>
+			<filter id="pencil-sketch-filter">
+				<!-- feTurbulence создает фрактальный шум (для имитации неровностей карандаша) -->
+				<feturbulence
+					type="fractalNoise"
+					baseFrequency="0.03"
+					numOctaves="3"
+					result="noise"
+				/>
+				<!-- feDisplacementMap искажает "SourceGraphic" (нашу прямую линию) на основе "noise" -->
+				<fedisplacementmap
+					in="SourceGraphic"
+					in2="noise"
+					scale="5"
+					xChannelSelector="R"
+					yChannelSelector="G"
+				/>
+				<!-- feGaussianBlur смягчает результат, делая линии менее резкими -->
+				<fegaussianblur stdDeviation="0.5" />
+				<!-- feColorMatrix опционально: корректирует контраст и альфа-канал для усиления эффекта карандаша -->
+				<fecolormatrix
+					type="matrix"
+					values="1 0 0 0 0
+													 0 1 0 0 0
+													 0 0 1 0 0
+													 0 0 0 5 -2"
+				/>
+			</filter>
+		</defs>
+	</svg>
+	<svg>
+		<use href="../../assets/svg/cross.svg"></use>
+	</svg>
 </div>

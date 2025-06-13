@@ -1,0 +1,36 @@
+body {
+	background-color: #fff;
+	background-image: 
+        /* Красная линия слева (как в тетради) */
+		linear-gradient(
+			90deg,
+			transparent 0,
+			transparent 68px,
+			#ff6b6b 68px,
+			#ff6b6b 70px,
+			transparent 70px
+		),
+		/* Вертикальные линии клетки */
+			repeating-linear-gradient(
+				90deg,
+				transparent 0,
+				transparent 19px,
+				#d4d4d4 19px,
+				#d4d4d4 20px
+			),
+		/* Горизонтальные линии клетки */
+			repeating-linear-gradient(
+				0deg,
+				transparent 0,
+				transparent 19px,
+				#d4d4d4 19px,
+				#d4d4d4 20px
+			),
+		/* Фон с легким градиентом */
+			linear-gradient(to bottom, #fafafa 0%, #fff 50%, #f5f5f5 100%);
+	background-size:
+		100% 100%,
+		20px 20px,
+		20px 20px,
+		100% 100%;
+}
