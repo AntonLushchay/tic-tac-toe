@@ -1,15 +1,13 @@
 class GameModel {
-	// controller;
 	board;
 	turn;
 	status = 'active';
 	winner = null;
-	player1 = 'X';
-	player2 = 'O';
+	player1 = 'x';
+	player2 = 'o';
 	observers = [];
 
 	constructor() {
-		// this.controller = controller;
 		this.resetBoard();
 	}
 
@@ -40,20 +38,22 @@ class GameModel {
 	}
 
 	setCell(index) {
-		if (this.board[index] !== null || this.status !== 'active') {
-			return;
+		if (this.board[index] === null) {
+			this.board[index] = this.turn;
+			if (this.iskWin()) {
+				this.notifyUpdate();
+				return;
+			}
+			this.changeTurn();
+			this.notifyUpdate();
 		}
-		this.board[index] = this.turn;
-		this.checkWin();
-		this.changeTurn();
-		this.notifyUpdate();
 	}
 
 	changeTurn() {
 		this.turn = this.turn === this.player1 ? this.player2 : this.player1;
 	}
 
-	checkWin() {
+	iskWin() {
 		const winningCombinations = [
 			[0, 1, 2],
 			[3, 4, 5],
@@ -74,7 +74,7 @@ class GameModel {
 			) {
 				this.winner = this.turn;
 				this.status = 'finished';
-				return;
+				return true;
 			}
 		}
 	}

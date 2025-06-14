@@ -17,6 +17,11 @@
 	}
 
 	&__board {
+		--random-angle-1: 90deg;
+		--random-angle-2: 90deg;
+		--random-angle-3: 0deg;
+		--random-angle-4: 0deg;
+
 		position: relative;
 		display: grid;
 		grid-template-rows: repeat(3, 100px);
@@ -25,57 +30,89 @@
 		justify-content: center;
 		width: fit-content;
 		margin: 0 auto;
-		// background: #222;		border-radius: 12px;
-		&::after {
+
+		&-line {
 			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			pointer-events: none;
-			content: '';
-			background:
-				linear-gradient(
-					90deg,
-					transparent 33%,
-					rgb(96 95 95) 33%,
-					rgb(96 95 95) calc(33% + 4px),
-					transparent calc(33% + 4px)
-				),
-				linear-gradient(
-					90deg,
-					transparent 66%,
-					rgb(96 95 95) 66%,
-					rgb(96 95 95) calc(66% + 4px),
-					transparent calc(66% + 4px)
-				),
-				linear-gradient(
-					0deg,
-					transparent 33%,
-					rgb(96 95 95) 33%,
-					rgb(96 95 95) calc(33% + 4px),
-					transparent calc(33% + 4px)
-				),
-				linear-gradient(
-					0deg,
-					transparent 66%,
-					rgb(96 95 95) 66%,
-					rgb(96 95 95) calc(66% + 4px),
-					transparent calc(66% + 4px)
-				);
+			background-color: #4a4949;
 			filter: url('#pencil-sketch-filter');
+
+			&--v1 {
+				left: 33%;
+				width: 4px;
+				height: 100%;
+				clip-path: inset(0 0 100% 0);
+				transform: rotate(var(--random-angle-1));
+				animation: draw-vertical-line 0.25s ease-in forwards;
+				animation-delay: 0s;
+			}
+
+			&--v2 {
+				left: 66%;
+				width: 4px;
+				height: 100%;
+				clip-path: inset(0 0 100% 0);
+				transform: rotate(var(--random-angle-2));
+				animation: draw-vertical-line 0.25s ease-in forwards;
+				animation-delay: 0.4s;
+			}
+
+			&--h1 {
+				top: 33%;
+				width: 100%;
+				height: 4px;
+				clip-path: inset(0 0 100% 0);
+				transform: rotate(var(--random-angle-3));
+				animation: draw-horizontal-line 0.25s ease-in forwards;
+				animation-delay: 1s;
+			}
+
+			&--h2 {
+				top: 66%;
+				width: 100%;
+				height: 4px;
+				clip-path: inset(0 0 100% 0);
+				transform: rotate(var(--random-angle-4));
+				animation: draw-horizontal-line 0.25s ease-in forwards;
+				animation-delay: 1.4s;
+			}
 		}
 	}
 
 	&__cell {
+		--random-cell-padding-y: 0px;
+		--random-cell-padding-x: 00px;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding-top: var(--random-cell-padding-y);
+		padding-left: var(--random-cell-padding-x);
 		background: transparent;
 
 		&:hover {
-			background: #d4d0d0;
+			width: 100%;
+			aspect-ratio: 1;
+			background: radial-gradient(
+				closest-side,
+				rgb(187 188 186 / 40%) 20%,
+				transparent 100%
+			);
 		}
 
 		&:active {
-			background: #4a4a4a;
+			width: 100%;
+			aspect-ratio: 1;
+			background: radial-gradient(
+				closest-side,
+				rgb(110 110 110 / 40%) 30%,
+				transparent 100%
+			);
+		}
+
+		svg {
+			display: block;
+			width: 90%;
+			height: 90%;
 		}
 	}
 }
@@ -98,21 +135,31 @@
 		border-radius: 12px;
 		box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
 	}
+
+	&__title {
+		margin-bottom: 10px;
+		font-size: 1.5rem;
+		font-weight: bold;
+		color: #333;
+	}
 }
 
-// .cell {
-// 	display: flex;
-// 	align-items: center;
-// 	justify-content: center;
-// 	font-size: 2.5rem;
-// 	font-weight: bold;
-// 	color: #333;
-// 	cursor: pointer;
-// 	background: #fff;
-// 	border-radius: 8px;
-// 	transition: background 0.2s;
+@keyframes draw-vertical-line {
+	from {
+		clip-path: inset(0 0 100% 0);
+	}
 
-// 	&:hover {
-// 		background: #f0f0f0;
-// 	}
-// }
+	to {
+		clip-path: inset(0 0 0 0);
+	}
+}
+
+@keyframes draw-horizontal-line {
+	from {
+		clip-path: inset(0 100% 0 0);
+	}
+
+	to {
+		clip-path: inset(0 0 0 0);
+	}
+}

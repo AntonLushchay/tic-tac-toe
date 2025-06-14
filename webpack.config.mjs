@@ -75,9 +75,6 @@ export default (env, argv) => {
 					return `${filepath.join('/')}/[name][ext][query]`;
 				}
 			},
-			// assetModuleFilename: isProduction
-			// 	? '[path][name].[contenthash][ext][query]'
-			// 	: '[path][name][ext][query]',
 			clean: true,
 			environment: {
 				arrowFunction: true,
@@ -214,8 +211,12 @@ export default (env, argv) => {
 					],
 				},
 				{
-					test: /\.(png|svg|jpg|jpeg|gif)$/i,
+					test: /\.(png|jpg|jpeg|gif)$/i,
 					type: 'asset/resource',
+				},
+				{
+					test: /\.svg$/i,
+					type: 'asset/source',
 				},
 				{
 					test: /\.(woff|woff2|eot|ttf|otf)$/i,

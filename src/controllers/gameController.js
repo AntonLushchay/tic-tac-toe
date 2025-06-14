@@ -17,13 +17,14 @@ class GameController {
 	}
 
 	handleModelUpdate = (state) => {
-		this.view.updateView(state);
+		this.view.render(state);
+		return;
 	};
 
 	buttonAction(buttonId) {
 		switch (buttonId) {
 			case 'restartButton':
-				window.location.hash = 'game';
+				this.view.cleanup();
 				this.model.resetBoard();
 				break;
 			case 'backButton':

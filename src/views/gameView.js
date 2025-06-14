@@ -1,9 +1,11 @@
-// import pencilSvg from '../assets/svg/pencil-filter.svg';
+import cross from '../assets/svg/cross.svg';
+import circle from '../assets/svg/circle.svg';
 
 import gameTemplate from './templates/game-template.html';
 
 class GameView {
-	// penciline = pencilSvg;
+	crossIcon = cross;
+	circleIcon = circle;
 	template = gameTemplate;
 	appRoot;
 	controller;
@@ -11,8 +13,8 @@ class GameView {
 	cells = [];
 	currentPlayerElem;
 	winnerElem;
-	winDialog;
-	status;
+	winnerDialogElem;
+	status = 'undefined';
 
 	constructor(appRoot, controller) {
 		this.appRoot = appRoot;
@@ -20,21 +22,14 @@ class GameView {
 	}
 
 	render(state) {
-		this.appRoot.innerHTML = this.template;
-		this.findElements();
-		this.setListeners();
-
-		this.setCells(state.board);
-		this.setCurrentPlayer(state.turn);
-		this.isWinner(state.winner);
-		this.status = state.status;
-	}
-
-	updateView(state) {
-		this.setCells(state.board);
-		this.setCurrentPlayer(state.turn);
-		this.isWinner(state.winner);
-		this.checkStatus(state.status);
+		console.log('state of view: ', state);
+		if (this.status === 'undefined') {
+			this.appRoot.innerHTML = this.template;
+			this.findElements();
+			this.setListeners();
+			this.setBoardLines();
+		}
+		this.setViewState(state);
 	}
 
 	findElements() {
@@ -61,33 +56,49 @@ class GameView {
 		});
 	}
 
+	setBoardLines() {
+		const gameBoardElem = this.appRoot.querySelector('.game__board');
+		for (let i = 1; i <= 4; i++) {
+			gameBoardElem.style.setProperty(
+				`--random-angle-${i}`,
+				`${Math.floor(Math.random() * (5 - -5 + 1)) + -5}deg`,
+			);
+		}
+	}
+
 	handleButtonClick = (event) => {
 		const buttonId = event.currentTarget.id;
-		console.log('Button clicked:', buttonId);
 		this.controller.buttonAction(buttonId);
 	};
 
 	handleCellClick = (event) => {
 		if (this.status === 'finished') {
-			console.log('Game is finished, no more moves allowed.');
 			return;
 		}
 
 		const cellID = Number(event.currentTarget.dataset.jsGameCell);
-		console.log('Cell clicked:', cellID);
 		this.controller.makeMove(cellID);
 	};
 
-	hideDialog() {}
+	setViewState(state) {
+		this.status = state.status;
 
-	setCells(board) {
+		console.log('crossIcon: ', this.crossIcon);
+		console.log('circleIcon: ', this.circleIcon);
+
 		this.cells.forEach((cell, index) => {
-			cell.textContent = board[index];
+			if (state.board[index] === 'x') {
+				cell.innerHTML = this.crossIcon;
+				this.setRandomCellPadding(cell);
+			} else if (state.board[index] === 'o') {
+				cell.innerHTML = this.circleIcon;
+				this.setRandomCellPadding(cell);
+			}
 		});
-	}
 
-	setCurrentPlayer(turn) {
-		this.currentPlayerElem.textContent = turn;
+		this.currentPlayerElem.textContent = state.turn;
+
+		this.isWinner(state.winner);
 	}
 
 	isWinner(winner) {
@@ -102,10 +113,15 @@ class GameView {
 		}
 	}
 
-	checkStatus(status) {
-		if (status === 'finished') {
-			console.log('Game status: finished');
-		}
+	setRandomCellPadding(cell) {
+		cell.style.setProperty(
+			'--random-cell-padding-y',
+			`${Math.random() * 20}px`,
+		);
+		cell.style.setProperty(
+			'--random-cell-padding-x',
+			`${Math.random() * 20}px`,
+		);
 	}
 
 	cleanup() {
@@ -115,6 +131,11 @@ class GameView {
 			});
 		}
 		this.buttons = null;
+		this.cells = [];
+		this.currentPlayerElem = null;
+		this.winnerElem = null;
+		this.status = 'undefined';
+
 		console.log('GameView event listeners cleaned up.');
 	}
 }
