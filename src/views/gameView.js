@@ -87,12 +87,14 @@ class GameView {
 		console.log('circleIcon: ', this.circleIcon);
 
 		this.cells.forEach((cell, index) => {
-			if (state.board[index] === 'x') {
-				cell.innerHTML = this.crossIcon;
-				this.setRandomCellPadding(cell);
-			} else if (state.board[index] === 'o') {
-				cell.innerHTML = this.circleIcon;
-				this.setRandomCellPadding(cell);
+			if (!cell.innerHTML) {
+				if (state.board[index] === 'x') {
+					cell.innerHTML = this.crossIcon;
+					this.setRandomCellMargin(cell);
+				} else if (state.board[index] === 'o') {
+					cell.innerHTML = this.circleIcon;
+					this.setRandomCellMargin(cell);
+				}
 			}
 		});
 
@@ -113,15 +115,9 @@ class GameView {
 		}
 	}
 
-	setRandomCellPadding(cell) {
-		cell.style.setProperty(
-			'--random-cell-padding-y',
-			`${Math.random() * 20}px`,
-		);
-		cell.style.setProperty(
-			'--random-cell-padding-x',
-			`${Math.random() * 20}px`,
-		);
+	setRandomCellMargin(cell) {
+		cell.style.marginTop = `${Math.random() * (20 - -20) + -20}px`;
+		cell.style.marginLeft = `${Math.random() * (20 - -20) + -20}px`;
 	}
 
 	cleanup() {

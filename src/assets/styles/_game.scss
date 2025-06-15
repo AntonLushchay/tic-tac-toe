@@ -79,19 +79,12 @@
 	}
 
 	&__cell {
-		--random-cell-padding-y: 0px;
-		--random-cell-padding-x: 00px;
-
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding-top: var(--random-cell-padding-y);
-		padding-left: var(--random-cell-padding-x);
 		background: transparent;
 
 		&:hover {
-			width: 100%;
-			aspect-ratio: 1;
 			background: radial-gradient(
 				closest-side,
 				rgb(187 188 186 / 40%) 20%,
@@ -100,8 +93,6 @@
 		}
 
 		&:active {
-			width: 100%;
-			aspect-ratio: 1;
 			background: radial-gradient(
 				closest-side,
 				rgb(110 110 110 / 40%) 30%,
@@ -110,9 +101,11 @@
 		}
 
 		svg {
+			z-index: 1;
 			display: block;
 			width: 90%;
 			height: 90%;
+			filter: url('#pencil-sketch-filter');
 		}
 	}
 }
