@@ -2,7 +2,7 @@ class GameModel {
 	board;
 	turn;
 	status = 'active';
-	winner = null;
+	winner = { name: null, winnerCells: [] };
 	player1 = 'x';
 	player2 = 'o';
 	observers = [];
@@ -33,7 +33,7 @@ class GameModel {
 		this.board = Array(9).fill(null);
 		this.turn = this.player1;
 		this.status = 'active';
-		this.winner = null;
+		this.winner = { name: null, winnerCells: [] };
 		this.notifyUpdate();
 	}
 
@@ -72,7 +72,10 @@ class GameModel {
 				this.board[a] === this.board[b] &&
 				this.board[a] === this.board[c]
 			) {
-				this.winner = this.turn;
+				this.winner = {
+					name: this.turn,
+					winnerCells: [a, b, c],
+				};
 				this.status = 'finished';
 				return true;
 			}

@@ -1,4 +1,7 @@
 .game {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
 	max-width: 1440px;
 	margin: 0 auto;
 
@@ -28,7 +31,7 @@
 		grid-template-columns: repeat(3, 100px);
 		gap: 4px;
 		justify-content: center;
-		width: fit-content;
+		// width: fit-content;
 		margin: 0 auto;
 
 		&-line {
@@ -103,9 +106,63 @@
 		svg {
 			z-index: 1;
 			display: block;
-			width: 90%;
-			height: 90%;
 			filter: url('#pencil-sketch-filter');
+
+			&.cross-svg {
+				width: 90%;
+				height: 90%;
+				color: red;
+
+				#cross-line1 {
+					stroke-dasharray: 85;
+					stroke-dashoffset: 85;
+					animation: draw-cross-line 0.2s ease-in forwards;
+				}
+
+				#cross-line2 {
+					stroke-dasharray: 85;
+					stroke-dashoffset: 85;
+					animation: draw-cross-line 0.2s ease-in forwards;
+					animation-delay: 0.4s;
+				}
+			}
+
+			&.circle-svg {
+				width: 80%;
+				height: 80%;
+				color: blue;
+
+				#circle {
+					stroke-dasharray: 252;
+					stroke-dashoffset: 252;
+					animation: draw-circle-line 0.4s ease-in forwards;
+				}
+			}
+		}
+	}
+
+	&__win-line {
+		--left-indent: 0;
+		--top-indent: 0;
+		--line-length: 0;
+		--angle: 0deg;
+		--color: black;
+
+		position: absolute;
+		top: var(--top-indent);
+		left: var(--left-indent);
+		z-index: 2;
+		width: var(--line-length);
+		height: 4px;
+		background-color: var(--color);
+		filter: url('#pencil-sketch-filter');
+		transform: rotate(var(--angle));
+		transform-origin: top left;
+
+		&--active {
+			clip-path: inset(0 0 100% 0);
+			animation: draw-horizontal-line 0.4s ease-in forwards;
+			animation-delay: 0s;
 		}
 	}
 }
@@ -154,5 +211,25 @@
 
 	to {
 		clip-path: inset(0 0 0 0);
+	}
+}
+
+@keyframes draw-cross-line {
+	from {
+		stroke-dashoffset: 85;
+	}
+
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes draw-circle-line {
+	from {
+		stroke-dashoffset: 252;
+	}
+
+	to {
+		stroke-dashoffset: 0;
 	}
 }

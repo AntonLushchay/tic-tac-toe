@@ -63,7 +63,6 @@ export default (env, argv) => {
 			chunkFilename: isProduction
 				? '[name].[contenthash:8].chunk.js'
 				: '[name].chunk.js',
-			// publicPath: '/',
 			publicPath: isProduction ? '/tic-tac-toe/' : '/',
 			assetModuleFilename: (pathData) => {
 				const filepath = path
