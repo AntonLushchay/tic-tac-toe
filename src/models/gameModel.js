@@ -1,7 +1,7 @@
 class GameModel {
 	board;
 	turn;
-	status = 'active';
+	status = 'undefined';
 	winner = { name: null, winnerCells: [] };
 	player1 = 'x';
 	player2 = 'o';
@@ -32,28 +32,38 @@ class GameModel {
 	resetBoard() {
 		this.board = Array(9).fill(null);
 		this.turn = this.player1;
-		this.status = 'active';
 		this.winner = { name: null, winnerCells: [] };
+		this.changeStatus('undefined');
 		this.notifyUpdate();
 	}
 
 	setCell(index) {
 		if (this.board[index] === null) {
 			this.board[index] = this.turn;
-			if (this.iskWin()) {
-				this.notifyUpdate();
-				return;
-			}
-			this.changeTurn();
-			this.notifyUpdate();
+			this.checkWin();
 		}
+	}
+
+	checkWin() {
+		if (this.isWin()) {
+			this.changeStatus('finished');
+			this.notifyUpdate();
+			return;
+		}
+		this.changeStatus('active');
+		this.changeTurn();
+		this.notifyUpdate();
 	}
 
 	changeTurn() {
 		this.turn = this.turn === this.player1 ? this.player2 : this.player1;
 	}
 
-	iskWin() {
+	changeStatus(newStatus) {
+		this.status = newStatus;
+	}
+
+	isWin() {
 		const winningCombinations = [
 			[0, 1, 2],
 			[3, 4, 5],
@@ -76,7 +86,7 @@ class GameModel {
 					name: this.turn,
 					winnerCells: [a, b, c],
 				};
-				this.status = 'finished';
+				this.changeStatus('finished');
 				return true;
 			}
 		}

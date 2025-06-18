@@ -3,6 +3,18 @@
 	<div class="game__current-player">
 		Current Player: <span class="game__current-player-name">X</span>
 	</div>
+	<button
+		class="game__settings-button"
+		id="settingsButton"
+		data-js-game-button
+	>
+		<svg>
+			<use
+				class="game__settings-icon"
+				href="../../assets/svg/settings.svg#settings-icon"
+			></use>
+		</svg>
+	</button>
 	<div class="game__win-line" data-js-game-win-line></div>
 	<div class="game__board">
 		<div class="game__cell" data-js-game-cell="0"></div>
@@ -31,24 +43,32 @@
 			data-js-board-line="4"
 		></div>
 	</div>
-	<button class="game__restart-button" id="restartButton" data-js-game-button>
-		Restart
-	</button>
-	<button class="game__back-button" id="backButton" data-js-game-button>
-		Back
-	</button>
+	<div class="game__button-container">
+		<button
+			class="game__restart-button button"
+			id="restartButton"
+			data-js-game-button
+		>
+			Restart
+		</button>
+		<button
+			class="game__back-button button"
+			id="backButton"
+			data-js-game-button
+		>
+			Back
+		</button>
+	</div>
 
 	<dialog class="game__dialog dialog" data-js-game-dialog>
 		<div class="dialog__content">
 			<p class="dialog__game-winner">
 				Player
-				<span class="dialog__player-name" data-js-dialog-winner
-					>temporary text</span
-				>
+				<span class="dialog__player-name" data-js-dialog-winner></span>
 				has won!
 			</p>
 			<button
-				class="dialog__close-button"
+				class="dialog__close-button button"
 				id="dialogCloseButton"
 				data-js-game-button
 			>
@@ -56,7 +76,7 @@
 			</button>
 		</div>
 	</dialog>
-	<!-- SVG определения для фильтров -->
+
 	<svg>
 		<defs>
 			<filter id="pencil-sketch-filter">

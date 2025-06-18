@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,6 +38,11 @@ export default (env, argv) => {
 			chunkFilename: isProduction
 				? '[id].[contenthash:8].css'
 				: '[id].css',
+		}),
+		new CopyPlugin({
+			patterns: [
+				{ from: 'src/assets/svg/settings.svg', to: 'assets/svg/' },
+			],
 		}),
 	];
 
@@ -215,7 +221,7 @@ export default (env, argv) => {
 					type: 'asset/resource',
 				},
 				{
-					test: /\.svg$/i,
+					test: /\.inline\.svg$/i,
 					type: 'asset/source',
 				},
 				{

@@ -1,5 +1,5 @@
-import cross from '../assets/svg/cross.svg';
-import circle from '../assets/svg/circle.svg';
+import cross from '../assets/svg/cross.inline.svg';
+import circle from '../assets/svg/circle.inline.svg';
 
 import gameTemplate from './templates/game-template.html';
 
@@ -15,6 +15,7 @@ class GameView {
 	winBoardLine;
 	winnerElem;
 	winnerDialogElem;
+	dialogCloseButtonElem;
 	status = 'undefined';
 
 	constructor(appRoot, controller) {
@@ -23,13 +24,15 @@ class GameView {
 	}
 
 	render(state) {
-		console.log('state of view: ', state);
-		if (this.status === 'undefined') {
+		console.log('state from model: ', state);
+
+		if (state.status === 'undefined') {
 			this.appRoot.innerHTML = this.template;
 			this.findElements();
 			this.setListeners();
 			this.setBoardLines();
 		}
+
 		this.setViewState(state);
 	}
 
@@ -48,6 +51,10 @@ class GameView {
 		this.winnerElem = this.winnerDialogElem.querySelector(
 			'[data-js-dialog-winner]',
 		);
+		this.dialogCloseButtonElem =
+			this.winnerDialogElem.querySelector('#dialogCloseButton');
+
+		console.log('buttons: ', this.buttons);
 	}
 
 	setListeners() {
@@ -79,33 +86,84 @@ class GameView {
 		if (this.status === 'finished') {
 			return;
 		}
-
 		const cellID = Number(event.currentTarget.dataset.jsGameCell);
 		this.controller.makeMove(cellID);
 	};
 
 	setViewState(state) {
-		this.status = state.status;
+		this.setStatus(state);
 
+		this.setCells(state);
+
+		this.setCurrentPlayer(state);
+	}
+
+	setStatus(state) {
+		this.status = state.status;
+		if (this.status === 'finished') {
+			this.showWinDialog(state.winner);
+			this.drawWinLine(state.winner.winnerCells, state.winner.name);
+		}
+	}
+
+	setCells(state) {
 		this.cells.forEach((cell, index) => {
 			if (!cell.innerHTML) {
 				if (state.board[index] === 'x') {
 					cell.innerHTML = this.crossIcon;
-					this.setRandomCellMargin(cell);
+					this.setRandomCellTranslate(cell);
 				} else if (state.board[index] === 'o') {
 					cell.innerHTML = this.circleIcon;
-					this.setRandomCellMargin(cell);
+					this.setRandomCellTranslate(cell);
 				}
 			}
 		});
+	}
 
-		this.currentPlayerElem.textContent = state.turn;
+	setCurrentPlayer(state) {
+		if (state.turn === 'x') {
+			this.currentPlayerElem.innerHTML = this.crossIcon;
+			this.currentPlayerElem.style.setProperty('--color', 'red');
+		} else {
+			this.currentPlayerElem.innerHTML = this.circleIcon;
+			this.currentPlayerElem.style.setProperty('--color', 'blue');
+		}
+	}
 
-		if (state.winner.name) {
-			this.winnerElem.textContent = `Winner: ${state.winner.name}`;
-			this.status = 'finished';
+	showWinDialog(winner) {
+		this.updateWinDialog(winner.name);
 
-			this.drawWinLine(state.winner.winnerCells, state.winner.name);
+		const showDialog = () => {
+			this.winnerDialogElem.showModal();
+			this.dialogCloseButtonElem.focus();
+		};
+
+		this.winBoardLine.addEventListener('animationend', showDialog, {
+			once: true,
+		});
+	}
+
+	hideDialog() {
+		this.winnerDialogElem.close();
+	}
+
+	updateWinDialog(winnerName) {
+		if (this.status === 'finished') {
+			if (winnerName === 'x') {
+				this.winnerDialogElem.style.setProperty(
+					'--background-color',
+					'rgb(251, 198, 198)',
+				);
+				this.winnerElem.innerHTML = this.crossIcon;
+				this.winnerElem.style.setProperty('--color', 'red');
+			} else {
+				this.winnerElem.innerHTML = this.circleIcon;
+				this.winnerElem.style.setProperty('--color', 'blue');
+				this.winnerDialogElem.style.setProperty(
+					'--background-color',
+					'rgb(199, 199, 249)',
+				);
+			}
 		}
 	}
 
@@ -114,16 +172,12 @@ class GameView {
 			this.cells[winnerCells[0]].getBoundingClientRect();
 		const endCellData = this.cells[winnerCells[2]].getBoundingClientRect();
 
-		console.log('startCellData: ', startCellData);
-		console.log('endCellData: ', endCellData);
-
 		const horizontalLineXY = {
 			x1: startCellData.x,
 			y1: startCellData.y + startCellData.height / 2,
 			x2: endCellData.x + endCellData.width,
 			y2: endCellData.y + endCellData.height / 2,
 		};
-		console.log('horizontalLineXY: ', horizontalLineXY);
 
 		const verticalLineXY = {
 			x1: startCellData.x + startCellData.width / 2,
@@ -142,10 +196,10 @@ class GameView {
 
 		// Слева снизу в право вверх "/"
 		const diagonalLineXY2 = {
-			x1: startCellData.x,
-			y1: startCellData.y + startCellData.height,
-			x2: endCellData.x + endCellData.width,
-			y2: endCellData.y,
+			x1: startCellData.x + startCellData.width,
+			y1: startCellData.y,
+			x2: endCellData.x,
+			y2: endCellData.y + endCellData.height,
 		};
 
 		const winTypesObj = {
@@ -184,15 +238,9 @@ class GameView {
 	setWinLine(lineCoordinates, winnerName) {
 		const deltaX = lineCoordinates.x2 - lineCoordinates.x1;
 		const deltaY = lineCoordinates.y2 - lineCoordinates.y1;
-		const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI); // +90 to adjust the angle to CSS coordinate system
+		const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
 		const lineLength = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 		const lineColor = winnerName === 'x' ? 'red' : 'blue';
-
-		console.log('lineCoordinates: ', lineCoordinates);
-		console.log('deltaX: ', deltaX);
-		console.log('deltaY: ', deltaY);
-		console.log('angle: ', angle);
-		console.log('lineLength: ', lineLength);
 
 		this.winBoardLine.style.setProperty(
 			'--left-indent',
@@ -208,7 +256,7 @@ class GameView {
 		this.winBoardLine.classList.add('game__win-line--active');
 	}
 
-	setRandomCellMargin(cell) {
+	setRandomCellTranslate(cell) {
 		const svgIcon = cell.querySelector('svg');
 		svgIcon.style.transform = `translate(${Math.random() * (15 - -15) + -15}px, ${Math.random() * (15 - -15) + -15}px)`;
 	}
@@ -223,7 +271,10 @@ class GameView {
 		this.cells = [];
 		this.currentPlayerElem = null;
 		this.winnerElem = null;
+		this.winBoardLine = null;
 		this.status = 'undefined';
+		this.winnerDialogElem = null;
+		this.dialogCloseButtonElem = null;
 
 		console.log('GameView event listeners cleaned up.');
 	}

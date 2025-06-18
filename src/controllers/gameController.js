@@ -8,7 +8,6 @@ class GameController {
 	constructor(appRoot) {
 		this.model = new GameModel();
 		this.view = new GameView(appRoot, this);
-
 		this.model.subscribe(this.handleModelUpdate);
 	}
 
@@ -33,6 +32,9 @@ class GameController {
 				break;
 			case 'dialogCloseButton':
 				this.view.hideDialog();
+				break;
+			case 'settingsButton':
+				window.location.hash = 'settings';
 				break;
 			default:
 				console.warn(`Unknown button clicked: ${buttonId}`);

@@ -13,10 +13,40 @@
 		text-align: center;
 	}
 
+	&__settings-button {
+		position: absolute;
+		top: 20px;
+		background-color: transparent;
+		border: none;
+
+		svg {
+			width: 50px;
+			height: 50px;
+		}
+	}
+
 	&__current-player {
+		display: flex;
+		column-gap: 10px;
+		align-items: center;
+		justify-content: center;
 		font-size: 1.5rem;
 		color: #666;
 		text-align: center;
+
+		&-name {
+			--color: black;
+
+			align-items: center;
+			vertical-align: middle;
+			color: var(--color);
+		}
+
+		svg {
+			width: 30px;
+			height: 30px;
+			filter: url('#pencil-sketch-filter');
+		}
 	}
 
 	&__board {
@@ -165,32 +195,60 @@
 			animation-delay: 0s;
 		}
 	}
+
+	&__button-container {
+		display: flex;
+		flex-direction: column;
+		row-gap: 20px;
+		justify-content: center;
+		margin-top: 30px;
+	}
 }
 
 .dialog {
-	width: 200px;
-	height: 200px;
+	--background-color: white;
 
-	&::backdrop {
-		background: rgb(0 0 0 / 50%);
+	position: fixed;
+	top: 35%;
+	width: 350px;
+	height: 200px;
+	background-color: var(--background-color);
+
+	&[open] {
+		animation: dialog-appear 0.5s ease-out forwards;
+
+		&::backdrop {
+			animation: dialog-backdrop-appear 0.5s ease-out forwards;
+		}
 	}
 
 	&__content {
 		display: flex;
 		flex-direction: column;
+		row-gap: 50px;
 		align-items: center;
 		justify-content: center;
-		padding: 20px;
-		background: #fff;
-		border-radius: 12px;
-		box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
 	}
 
-	&__title {
-		margin-bottom: 10px;
-		font-size: 1.5rem;
-		font-weight: bold;
-		color: #333;
+	&__game-winner {
+		display: flex;
+		flex-direction: row;
+		column-gap: 15px;
+		align-items: center;
+		justify-content: center;
+		font-size: 30px;
+	}
+
+	&__player-name {
+		--color: black;
+
+		color: var(--color);
+
+		svg {
+			width: 50px;
+			height: 50px;
+			filter: url('#pencil-sketch-filter');
+		}
 	}
 }
 
@@ -231,5 +289,27 @@
 
 	to {
 		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes dialog-appear {
+	from {
+		opacity: 0;
+		transform: scale(0.8);
+	}
+
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes dialog-backdrop-appear {
+	from {
+		background: rgb(0 0 0 / 0%);
+	}
+
+	to {
+		background: rgb(0 0 0 / 50%);
 	}
 }
