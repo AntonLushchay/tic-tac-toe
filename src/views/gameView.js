@@ -17,6 +17,7 @@ class GameView {
 	winnerDialogElem;
 	dialogCloseButtonElem;
 	status = 'undefined';
+	isDraw = false;
 
 	constructor(appRoot, controller) {
 		this.appRoot = appRoot;
@@ -100,9 +101,12 @@ class GameView {
 
 	setStatus(state) {
 		this.status = state.status;
+		console.log('status: ', this.status);
 		if (this.status === 'finished') {
 			this.showWinDialog(state.winner);
 			this.drawWinLine(state.winner.winnerCells, state.winner.name);
+		} else if (this.status === 'draw') {
+			this.showWinDialog(state.winner);
 		}
 	}
 
@@ -133,14 +137,19 @@ class GameView {
 	showWinDialog(winner) {
 		this.updateWinDialog(winner.name);
 
-		const showDialog = () => {
+		if (this.status === 'draw') {
 			this.winnerDialogElem.showModal();
 			this.dialogCloseButtonElem.focus();
-		};
+		} else {
+			const showDialog = () => {
+				this.winnerDialogElem.showModal();
+				this.dialogCloseButtonElem.focus();
+			};
 
-		this.winBoardLine.addEventListener('animationend', showDialog, {
-			once: true,
-		});
+			this.winBoardLine.addEventListener('animationend', showDialog, {
+				once: true,
+			});
+		}
 	}
 
 	hideDialog() {
@@ -164,6 +173,11 @@ class GameView {
 					'rgb(199, 199, 249)',
 				);
 			}
+		} else if (this.status === 'draw') {
+			const dialogDrawTextElem = this.winnerDialogElem.querySelector(
+				'.dialog__game-winner',
+			);
+			dialogDrawTextElem.textContent = 'DRAW!';
 		}
 	}
 

@@ -13,7 +13,7 @@ class HomeController {
 
 	navigateTo(buttonId) {
 		switch (buttonId) {
-			case 'playButton':
+			case '1v1PlayButton':
 				window.location.hash = 'game';
 				break;
 			case 'settingsButton':

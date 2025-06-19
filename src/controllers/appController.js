@@ -1,6 +1,6 @@
 import HomeController from './homeController';
 import GameController from './gameController';
-// import SettingsController from './settingsController';
+import SettingsController from './settingsController';
 
 class AppController {
 	appRoot;
@@ -19,7 +19,7 @@ class AppController {
 
 		this.homeController = new HomeController(this.appRoot);
 		this.gameController = new GameController(this.appRoot);
-		// this.settingsController = new SettingsController(this.appRoot);
+		this.settingsController = new SettingsController(this.appRoot);
 
 		window.addEventListener('hashchange', this.handleHashChange.bind(this));
 		this.handleHashChange();
@@ -58,8 +58,8 @@ class AppController {
 			console.warn(
 				`AppController Error: No controller found for hash: ${hash}. Defaulting to home view.`,
 			);
-			this.homeController.show();
-			this.currentController = this.homeController;
+			// this.homeController.show();
+			// this.currentController = this.homeController;
 		}
 	}
 }

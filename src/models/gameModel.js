@@ -50,6 +50,11 @@ class GameModel {
 			this.notifyUpdate();
 			return;
 		}
+		if (this.isDraw()) {
+			this.changeStatus('draw');
+			this.notifyUpdate();
+			return;
+		}
 		this.changeStatus('active');
 		this.changeTurn();
 		this.notifyUpdate();
@@ -90,6 +95,10 @@ class GameModel {
 				return true;
 			}
 		}
+	}
+
+	isDraw() {
+		return this.board.every((cell) => cell !== null);
 	}
 }
 
