@@ -4,15 +4,17 @@ import GameView from '../views/gameView';
 class GameController {
 	model;
 	view;
+	hash;
 
 	constructor(appRoot) {
 		this.model = new GameModel();
 		this.view = new GameView(appRoot, this);
 		this.model.subscribe(this.handleModelUpdate);
+		this.hash = 'game';
 	}
 
-	show() {
-		this.view.render(this.model.getState());
+	show(previousHash) {
+		this.view.render(this.model.getState(), previousHash);
 	}
 
 	handleModelUpdate = (state) => {

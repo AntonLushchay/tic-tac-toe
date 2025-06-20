@@ -41,7 +41,13 @@ export default (env, argv) => {
 		}),
 		new CopyPlugin({
 			patterns: [
-				{ from: 'src/assets/svg/settings.svg', to: 'assets/svg/' },
+				{
+					from: 'src/assets/svg',
+					to: 'assets/svg/',
+					globOptions: {
+						ignore: ['**/*.inline.svg'],
+					},
+				},
 			],
 		}),
 	];

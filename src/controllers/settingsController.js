@@ -8,16 +8,26 @@ import settingsView from '../views/settingsView';
 
 class SettingsController {
 	constructor(appRoot) {
-		this.settingsModel = new settingsModel();
+		this.model = new settingsModel();
 		this.view = new settingsView(appRoot, this);
+		this.hash = 'settings';
 	}
 
-	show() {
+	show(previousHash) {
 		this.view.render();
+		this.previousHash = previousHash;
+	}
+
+	buttonAction(buttonId) {
+		switch (buttonId) {
+			case 'backButton':
+				window.location.hash = this.previousHash || 'home';
+				break;
+		}
 	}
 
 	changeLanguage(lang) {
-		this.settingsModel.setLanguage(lang);
+		this.model.setLanguage(lang);
 	}
 
 	cleanup() {

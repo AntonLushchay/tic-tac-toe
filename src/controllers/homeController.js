@@ -2,9 +2,11 @@ import HomeView from '../views/homeView';
 
 class HomeController {
 	view;
+	hash;
 
 	constructor(appRoot) {
 		this.view = new HomeView(appRoot, this);
+		this.hash = 'home';
 	}
 
 	show() {

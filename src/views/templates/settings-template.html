@@ -4,28 +4,57 @@
 		<ul>
 			<li>
 				<label for="language-select">Language:</label>
-
-				<select name="language" id="language-select">
-					<option value="ru">Русский</option>
-					<option value="en">English</option>
+				<select
+					class="settings__select-language select"
+					name="language"
+					id="language-select"
+					data-js-settings-language-select
+				>
+					<option class="settings__language-option" value="en">
+						English
+					</option>
+					<option class="settings__language-option" value="ru">
+						Русский
+					</option>
 				</select>
 			</li>
+
 			<li>
 				<label for="first-player-select">First Player:</label>
-
-				<select name="first-player" id="first-player-select">
+				<select
+					class="settings__select-player select"
+					name="first-player"
+					id="first-player-select"
+					data-js-settings-first-player-select
+				>
 					<option value="X">X</option>
-					<option value="O">O</option>
+					<option value="0">O</option>
 				</select>
 			</li>
+
 			<li>
-				<button id="soundButton">
-					<svg>
+				<button id="soundButton" data-js-settings-sound-toggle>
+					<svg class="settings__icon">
 						<use href="../../assets/svg/sound.svg"></use>
 					</svg>
 				</button>
 			</li>
+			<li>
+				<label for="darkModeToggle">Dark Mode</label>
+
+				<input
+					type="checkbox"
+					id="darkModeToggle"
+					data-js-settings-dark-mode-toggle
+				/>
+			</li>
 		</ul>
 	</nav>
-	<button class="settings__back-button button" id="backButton">Back</button>
+	<button
+		class="settings__back-button button"
+		id="backButton"
+		data-js-settings-button
+	>
+		Back
+	</button>
 </div>

@@ -7,6 +7,7 @@ class GameView {
 	crossIcon = cross;
 	circleIcon = circle;
 	template = gameTemplate;
+	gameElem;
 	appRoot;
 	controller;
 	buttons;
@@ -24,10 +25,10 @@ class GameView {
 		this.controller = controller;
 	}
 
-	render(state) {
+	render(state, previousHash) {
 		console.log('state from model: ', state);
 
-		if (state.status === 'undefined') {
+		if (state.status === 'undefined' || previousHash === 'settings') {
 			this.appRoot.innerHTML = this.template;
 			this.findElements();
 			this.setListeners();
@@ -38,6 +39,7 @@ class GameView {
 	}
 
 	findElements() {
+		this.gameElem = this.appRoot.querySelector('.game');
 		this.currentPlayerElem = this.appRoot.querySelector(
 			'.game__current-player-name',
 		);
@@ -54,8 +56,6 @@ class GameView {
 		);
 		this.dialogCloseButtonElem =
 			this.winnerDialogElem.querySelector('#dialogCloseButton');
-
-		console.log('buttons: ', this.buttons);
 	}
 
 	setListeners() {
@@ -101,7 +101,6 @@ class GameView {
 
 	setStatus(state) {
 		this.status = state.status;
-		console.log('status: ', this.status);
 		if (this.status === 'finished') {
 			this.showWinDialog(state.winner);
 			this.drawWinLine(state.winner.winnerCells, state.winner.name);

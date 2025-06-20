@@ -8,6 +8,8 @@ class AppController {
 	gameController;
 	settingsController;
 	currentController;
+	newHash;
+	previousHash;
 
 	constructor() {
 		this.appRoot = document.getElementById('app-root');
@@ -26,17 +28,23 @@ class AppController {
 	}
 
 	handleHashChange() {
-		const hash = window.location.hash.slice(1);
+		//settings нажали , back нажали
+		this.previousHash = this.newHash || 'home'; //game, settings
+		this.newHash = window.location.hash.slice(1); // settings, game
 
 		if (
-			this.currentController &&
-			typeof this.currentController.cleanup === 'function'
+			this.currentController && //game, settings
+			typeof this.currentController.cleanup === 'function' &&
+			this.newHash !== 'settings' // false, true
 		) {
 			this.currentController.cleanup();
+			console.log(
+				`Cleaning up controller: ${this.currentController.constructor.name}`,
+			);
 		}
 
 		let nextController;
-		switch (hash) {
+		switch (this.newHash) {
 			case 'game':
 				nextController = this.gameController;
 				break;
@@ -52,14 +60,12 @@ class AppController {
 		}
 
 		if (nextController && nextController.show) {
-			nextController.show();
-			this.currentController = nextController;
+			nextController.show(this.previousHash);
+			this.currentController = nextController; // settings controller
 		} else {
 			console.warn(
-				`AppController Error: No controller found for hash: ${hash}. Defaulting to home view.`,
+				`AppController Error: No controller found for hash: ${this.newHash}. Defaulting to home view.`,
 			);
-			// this.homeController.show();
-			// this.currentController = this.homeController;
 		}
 	}
 }
