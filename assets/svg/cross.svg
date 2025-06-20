@@ -1,0 +1,6 @@
+<svg class="cross-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+	<line id="cross-line1" x1="20" y1="20" x2="80" y2="80" stroke="currentcolor" stroke-width="8"
+		stroke-linecap="round" />
+	<line id="cross-line2" x1="80" y1="20" x2="20" y2="80" stroke="currentcolor" stroke-width="8"
+		stroke-linecap="round" />
+</svg>
