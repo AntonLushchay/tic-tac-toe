@@ -6,6 +6,7 @@ class GameModel {
 	player1 = 'x';
 	player2 = 'o';
 	observers = [];
+	settings = {};
 
 	constructor() {
 		this.resetBoard();
@@ -26,7 +27,13 @@ class GameModel {
 			turn: this.turn,
 			status: this.status,
 			winner: this.winner,
+			settings: this.settings,
 		};
+	}
+
+	setSettings(settings) {
+		this.settings = settings;
+		// this.notifyUpdate();
 	}
 
 	resetBoard() {

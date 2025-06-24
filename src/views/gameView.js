@@ -36,6 +36,7 @@ class GameView {
 		}
 
 		this.setViewState(state);
+		this.setViewSettings(state.settings);
 	}
 
 	findElements() {
@@ -97,6 +98,10 @@ class GameView {
 		this.setCells(state);
 
 		this.setCurrentPlayer(state);
+	}
+
+	setViewSettings(settings) {
+		console.log('settings in setViewSettings in GameView: ', settings);
 	}
 
 	setStatus(state) {
@@ -278,6 +283,11 @@ class GameView {
 		if (this.buttons && this.buttons.length > 0) {
 			this.buttons.forEach((button) => {
 				button.removeEventListener('click', this.handleButtonClick);
+			});
+		}
+		if (this.cells && this.cells.length > 0) {
+			this.cells.forEach((cell) => {
+				cell.removeEventListener('click', this.handleCellClick);
 			});
 		}
 		this.buttons = null;

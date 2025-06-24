@@ -22,6 +22,10 @@ class GameController {
 		return;
 	};
 
+	setSettings(settings) {
+		this.model.setSettings(settings);
+	}
+
 	buttonAction(buttonId) {
 		switch (buttonId) {
 			case 'restartButton':
