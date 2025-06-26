@@ -221,7 +221,7 @@
 
 	position: fixed;
 	top: 35%;
-	width: 350px;
+	width: 400px;
 	height: 200px;
 	background-color: var(--background-color);
 
@@ -250,7 +250,7 @@
 		font-size: 30px;
 	}
 
-	&__player-name {
+	&__game-winner--2nd-span {
 		--color: black;
 
 		color: var(--color);

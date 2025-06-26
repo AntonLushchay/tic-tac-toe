@@ -19,6 +19,10 @@ class SettingsController {
 		this.previousHash = previousHash;
 	}
 
+	getSettings() {
+		return this.model.getState();
+	}
+
 	handleModelUpdate = (settings) => {
 		this.view.updateSettingsView(settings);
 		this.notifyAppController(settings);

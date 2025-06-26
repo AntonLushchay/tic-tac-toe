@@ -36,7 +36,6 @@ class SettingsModel {
 			this.firstPlayer = parsedSettings.firstPlayer;
 			this.theme = parsedSettings.theme;
 		}
-		// this.notifyUpdate();
 	}
 
 	saveSettings() {

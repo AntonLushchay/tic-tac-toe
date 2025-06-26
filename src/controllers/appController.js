@@ -20,20 +20,21 @@ class AppController {
 		}
 
 		this.settingsController = new SettingsController(this.appRoot);
-		this.homeController = new HomeController(this.appRoot);
 		this.gameController = new GameController(this.appRoot);
+		this.homeController = new HomeController(this.appRoot);
 
-		this.settingsController.subscribe(this.handleModelUpdate);
+		this.settingsController.subscribe(this.throwSettings.bind(this));
 
 		window.addEventListener('hashchange', this.handleHashChange.bind(this));
+		this.throwSettings();
 		this.handleHashChange();
 	}
 
-	handleModelUpdate = (settings) => {
-		console.log('settings in App controller: ', settings);
+	throwSettings() {
+		const settings = this.settingsController.getSettings();
 		this.gameController.setSettings(settings);
-		// this.homeController.setSettings(settings);
-	};
+		this.homeController.setSettings(settings);
+	}
 
 	handleHashChange() {
 		this.previousHash = this.newHash || 'home';

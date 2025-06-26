@@ -6,21 +6,25 @@ class SettingsView {
 	constructor(appRoot, controller) {
 		this.appRoot = appRoot;
 		this.controller = controller;
-
 		this.translation = translations;
+		this.updatedTamplate;
 	}
 
-	render() {
-		this.appRoot.innerHTML = settingsTemplate;
+	render(settings) {
+		this.appRoot.innerHTML = this.updatedTamplate
+			? this.updatedTamplate
+			: settingsTemplate;
 
 		this.findElements();
 		this.setEventListeners();
+
+		this.updateSettingsView(settings);
 	}
 
 	updateSettingsView(settings) {
 		this.changeLanguage(settings.language);
-		// this.changeSound(settings.soundEnabled);
 		// this.changeFirstPlayer(settings.firstPlayer);
+		// this.changeSound(settings.soundEnabled);
 		// this.changeTheme(settings.theme === 'dark');
 	}
 
@@ -35,6 +39,9 @@ class SettingsView {
 			this.translation[lang]['settingsView']['language'];
 		this.selectPlayerLabel.textContent =
 			this.translation[lang]['settingsView']['firstPlayer'];
+
+		this.languageSelect.value = lang;
+		this.updatedTamplate = this.appRoot.innerHTML;
 	}
 
 	findElements() {
@@ -91,7 +98,7 @@ class SettingsView {
 
 	handleChangeLanguage = (event) => {
 		const lang = event.target.value;
-		console.log('lang: ', lang);
+		this.languageSelect.value = lang;
 		this.controller.changeLanguage(lang);
 	};
 

@@ -2,7 +2,7 @@ export const translations = {
 	en: {
 		homePage: {
 			title: 'Tic Tac Toe',
-			playButton: 'Play 1 vs 1',
+			oneVsOnePlayButton: 'Play 1 vs 1',
 			settingsButton: 'Settings',
 		},
 		settingsView: {
@@ -16,16 +16,17 @@ export const translations = {
 			currentPlayer: 'Current Player:',
 			restartButton: 'Restart',
 			backButton: 'Back',
-			firstPartWinDialog: 'Player ',
-			secondPartWinDialog: 'has won!',
 			dialogCloseButton: 'Close',
-			drawDialog: "It/'s a draw!",
+			winner1stSpanElem: 'Player ',
+			winner3rdSpanElem: 'has won!',
+			drawDialog: "It's a draw!",
 		},
 	},
+
 	es: {
 		homePage: {
 			title: 'Tic Tac Toe',
-			playButton: 'Jugar 1 vs 1',
+			oneVsOnePlayButton: 'Jugar 1 vs 1',
 			settingsButton: 'Configuración',
 		},
 		settingsView: {
@@ -39,16 +40,17 @@ export const translations = {
 			currentPlayer: 'Jugador actual:',
 			restartButton: 'Reiniciar',
 			backButton: 'Atrás',
-			firstPartWinDialog: '¡El jugador ',
-			secondPartWinDialog: ' ha ganado!',
+			winner1stSpanElem: '¡El jugador',
+			winner3rdSpanElem: 'ha ganado!',
 			dialogCloseButton: 'Cerrar',
 			drawDialog: '¡Es un empate!',
 		},
 	},
+
 	ru: {
 		homePage: {
 			title: 'Крестики-нолики',
-			playButton: 'Играть 1 против 1',
+			oneVsOnePlayButton: 'Играть 1 на 1',
 			settingsButton: 'Настройки',
 		},
 		settingsView: {
@@ -62,8 +64,8 @@ export const translations = {
 			currentPlayer: 'Текущий игрок:',
 			restartButton: 'Перезапустить',
 			backButton: 'Назад',
-			firstPartWinDialog: 'Игрок ',
-			secondPartWinDialog: ' выиграл!',
+			winner1stSpanElem: 'Игрок ',
+			winner3rdSpanElem: ' выиграл!',
 			dialogCloseButton: 'Закрыть',
 			drawDialog: 'Ничья!',
 		},

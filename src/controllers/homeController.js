@@ -3,6 +3,7 @@ import HomeView from '../views/homeView';
 class HomeController {
 	view;
 	hash;
+	settings = {};
 
 	constructor(appRoot) {
 		this.view = new HomeView(appRoot, this);
@@ -10,12 +11,17 @@ class HomeController {
 	}
 
 	show() {
-		this.view.render();
+		this.view.render(this.settings);
+	}
+
+	setSettings(settings) {
+		// this.view.setSettings(settings);
+		this.settings = settings;
 	}
 
 	navigateTo(buttonId) {
 		switch (buttonId) {
-			case '1v1PlayButton':
+			case 'oneVsOnePlayButton':
 				window.location.hash = 'game';
 				break;
 			case 'settingsButton':

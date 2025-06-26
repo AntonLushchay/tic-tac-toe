@@ -1,7 +1,8 @@
 <div class="game">
 	<h1 class="game__title">Game field</h1>
 	<div class="game__current-player">
-		Current Player: <span class="game__current-player-name">X</span>
+		<span class="game__current-player-label">Current Player:</span>
+		<span class="game__current-player-name">X</span>
 	</div>
 	<button
 		class="game__settings-button"
@@ -63,9 +64,12 @@
 	<dialog class="game__dialog dialog" data-js-game-dialog>
 		<div class="dialog__content">
 			<p class="dialog__game-winner">
-				Player
-				<span class="dialog__player-name" data-js-dialog-winner></span>
-				has won!
+				<span class="dialog__game-winner--1st-span">Player</span>
+				<span
+					class="dialog__game-winner--2nd-span"
+					data-js-dialog-winner
+				></span>
+				<span class="dialog__game-winner--3rd-span">has won!</span>
 			</p>
 			<button
 				class="dialog__close-button button"

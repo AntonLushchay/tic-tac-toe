@@ -33,7 +33,6 @@ class GameModel {
 
 	setSettings(settings) {
 		this.settings = settings;
-		// this.notifyUpdate();
 	}
 
 	resetBoard() {
