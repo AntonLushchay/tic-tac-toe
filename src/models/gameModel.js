@@ -3,8 +3,8 @@ class GameModel {
 	turn;
 	status = 'undefined';
 	winner = { name: null, winnerCells: [] };
-	player1 = 'x';
-	player2 = 'o';
+	player1 = 'X';
+	player2 = 'O';
 	observers = [];
 	settings = {};
 
@@ -33,6 +33,9 @@ class GameModel {
 
 	setSettings(settings) {
 		this.settings = settings;
+		if (this.status !== 'active') {
+			this.turn = settings.firstPlayer;
+		}
 	}
 
 	resetBoard() {

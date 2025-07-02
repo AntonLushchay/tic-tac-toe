@@ -37,7 +37,7 @@ class GameView {
 			this.setBoardLines();
 		}
 
-		this.setViewSettings(state.settings);
+		// this.setViewSettings(state.settings);
 		this.setViewState(state);
 	}
 
@@ -108,19 +108,21 @@ class GameView {
 	};
 
 	setViewState(state) {
+		this.changeLanguage(state.settings.language);
+		// this.changeFirstPlayer(state.settings.firstPlayer);
+		this.changeSound(state.settings.soundEnabled);
+		this.changeTheme(state.settings.darkMode);
+
 		this.setStatus(state);
 
 		this.setCells(state);
 
-		this.setCurrentPlayer(state);
+		this.setCurrentPlayer(state.turn);
 	}
 
-	setViewSettings(settings) {
-		this.changeLanguage(settings.language);
-		this.changeFirstPlayer(settings.firstPlayer);
-		this.changeSound(settings.soundEnabled);
-		this.changeTheme(settings.darkMode);
-	}
+	// setViewSettings(settings) {
+	// 	console.log('first player in setViewSettings:', settings.firstPlayer);
+	// }
 
 	changeLanguage(language) {
 		this.language = language;
@@ -140,7 +142,9 @@ class GameView {
 			translations[language]['gameView']['winner3rdSpanElem'];
 	}
 
-	changeFirstPlayer(firstPlayer) {}
+	// changeFirstPlayer(firstPlayer) {
+	// 	this.setCurrentPlayer(firstPlayer);
+	// }
 
 	changeSound(soundEnabled) {}
 
@@ -159,10 +163,10 @@ class GameView {
 	setCells(state) {
 		this.cells.forEach((cell, index) => {
 			if (!cell.innerHTML) {
-				if (state.board[index] === 'x') {
+				if (state.board[index] === 'X') {
 					cell.innerHTML = this.crossIcon;
 					this.setRandomCellTranslate(cell);
-				} else if (state.board[index] === 'o') {
+				} else if (state.board[index] === 'O') {
 					cell.innerHTML = this.circleIcon;
 					this.setRandomCellTranslate(cell);
 				}
@@ -170,8 +174,9 @@ class GameView {
 		});
 	}
 
-	setCurrentPlayer(state) {
-		if (state.turn === 'x') {
+	setCurrentPlayer(turn) {
+		console.log('Current player:', turn);
+		if (turn === 'X') {
 			this.currentPlayerSignElem.innerHTML = this.crossIcon;
 			this.currentPlayerSignElem.style.setProperty('--color', 'red');
 		} else {
@@ -204,7 +209,7 @@ class GameView {
 
 	updateWinDialog(winnerName) {
 		if (this.status === 'finished') {
-			if (winnerName === 'x') {
+			if (winnerName === 'X') {
 				this.winnerDialogElem.style.setProperty(
 					'--background-color',
 					'rgb(251, 198, 198)',
@@ -298,7 +303,7 @@ class GameView {
 		const deltaY = lineCoordinates.y2 - lineCoordinates.y1;
 		const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
 		const lineLength = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-		const lineColor = winnerName === 'x' ? 'red' : 'blue';
+		const lineColor = winnerName === 'X' ? 'red' : 'blue';
 
 		this.winBoardLine.style.setProperty(
 			'--left-indent',

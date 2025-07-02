@@ -45,6 +45,10 @@ class SettingsController {
 		this.model.setLanguage(lang);
 	}
 
+	changeFirstPlayer(sign) {
+		this.model.setFirstPlayer(sign);
+	}
+
 	cleanup() {
 		if (this.view) {
 			this.view.cleanup();
