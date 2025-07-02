@@ -23,7 +23,7 @@ class SettingsView {
 
 	updateSettingsView(settings) {
 		this.changeLanguage(settings.language);
-		// this.changeFirstPlayer(settings.firstPlayer);
+		this.changeFirstPlayer(settings.firstPlayer);
 		// this.changeSound(settings.soundEnabled);
 		// this.changeTheme(settings.theme === 'dark');
 	}
@@ -42,6 +42,10 @@ class SettingsView {
 
 		this.languageSelect.value = lang;
 		this.updatedTamplate = this.appRoot.innerHTML;
+	}
+
+	changeFirstPlayer(sign) {
+		this.firstPlayerSelect.value = sign;
 	}
 
 	findElements() {
@@ -83,9 +87,10 @@ class SettingsView {
 		this.soundToggle.addEventListener('click', () => {
 			this.controller.toggleSound();
 		});
-		this.firstPlayerSelect.addEventListener('change', (event) => {
-			this.controller.changeFirstPlayer(event.target.value);
-		});
+		this.firstPlayerSelect.addEventListener(
+			'change',
+			this.handleChangeFirstPlayer,
+		);
 		this.darkModeToggle.addEventListener('change', (event) => {
 			this.controller.toggleDarkMode(event.target.checked);
 		});
@@ -98,8 +103,14 @@ class SettingsView {
 
 	handleChangeLanguage = (event) => {
 		const lang = event.target.value;
-		this.languageSelect.value = lang;
+		// this.languageSelect.value = lang;
 		this.controller.changeLanguage(lang);
+	};
+
+	handleChangeFirstPlayer = (event) => {
+		const sign = event.target.value;
+		// this.firstPlayerSelect.value = sign;
+		this.controller.changeFirstPlayer(sign);
 	};
 
 	cleanup() {

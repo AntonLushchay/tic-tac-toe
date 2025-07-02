@@ -26,12 +26,11 @@ class AppController {
 		this.settingsController.subscribe(this.throwSettings.bind(this));
 
 		window.addEventListener('hashchange', this.handleHashChange.bind(this));
-		this.throwSettings();
+		this.throwSettings(this.settingsController.getSettings());
 		this.handleHashChange();
 	}
 
-	throwSettings() {
-		const settings = this.settingsController.getSettings();
+	throwSettings(settings) {
 		this.gameController.setSettings(settings);
 		this.homeController.setSettings(settings);
 	}

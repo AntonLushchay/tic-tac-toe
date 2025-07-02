@@ -1,8 +1,8 @@
 class SettingsModel {
 	constructor() {
 		this.language = 'en';
-		this.soundEnabled = true;
 		this.firstPlayer = 'X';
+		this.soundEnabled = true;
 		this.theme = 'light';
 		this.observers = [];
 
@@ -21,8 +21,8 @@ class SettingsModel {
 	getState() {
 		return {
 			language: this.language,
-			soundEnabled: this.soundEnabled,
 			firstPlayer: this.firstPlayer,
+			soundEnabled: this.soundEnabled,
 			theme: this.theme,
 		};
 	}
@@ -32,8 +32,8 @@ class SettingsModel {
 		if (savedSettings) {
 			const parsedSettings = JSON.parse(savedSettings);
 			this.language = parsedSettings.language;
-			this.soundEnabled = parsedSettings.soundEnabled;
 			this.firstPlayer = parsedSettings.firstPlayer;
+			this.soundEnabled = parsedSettings.soundEnabled;
 			this.theme = parsedSettings.theme;
 		}
 	}
@@ -48,14 +48,14 @@ class SettingsModel {
 		this.notifyUpdate();
 	}
 
-	toggleSound() {
-		this.soundEnabled = !this.soundEnabled;
+	setFirstPlayer(sign) {
+		this.firstPlayer = sign;
 		this.saveSettings();
 		this.notifyUpdate();
 	}
 
-	setFirstPlayer(player) {
-		this.firstPlayer = player;
+	toggleSound() {
+		this.soundEnabled = !this.soundEnabled;
 		this.saveSettings();
 		this.notifyUpdate();
 	}
