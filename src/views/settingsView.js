@@ -24,7 +24,7 @@ class SettingsView {
 	updateSettingsView(settings) {
 		this.changeLanguage(settings.language);
 		this.changeFirstPlayer(settings.firstPlayer);
-		// this.changeSound(settings.soundEnabled);
+		this.changeSound(settings.soundEnabled);
 		// this.changeTheme(settings.theme === 'dark');
 	}
 
@@ -48,6 +48,16 @@ class SettingsView {
 		this.firstPlayerSelect.value = sign;
 	}
 
+	changeSound(soundEnabled) {
+		if (soundEnabled) {
+			this.soundToggle.classList.remove(
+				'settings__sound-button--deactived',
+			);
+		} else {
+			this.soundToggle.classList.add('settings__sound-button--deactived');
+		}
+	}
+
 	findElements() {
 		this.title = this.appRoot.querySelector('.settings__title');
 		this.selectLanguageLabel = this.appRoot.querySelector(
@@ -63,15 +73,16 @@ class SettingsView {
 		this.languageSelect = this.appRoot.querySelector(
 			'[data-js-settings-language-select]',
 		);
-		this.soundToggle = this.appRoot.querySelector(
-			'[data-js-settings-sound-toggle]',
-		);
 		this.firstPlayerSelect = this.appRoot.querySelector(
 			'[data-js-settings-first-player-select]',
 		);
-		this.darkModeToggle = this.appRoot.querySelector(
-			'[data-js-settings-dark-mode-toggle]',
+		this.soundToggle = this.appRoot.querySelector(
+			'[data-js-settings-sound-toggle]',
 		);
+
+		// this.darkModeToggle = this.appRoot.querySelector(
+		// 	'[data-js-settings-dark-mode-toggle]',
+		// );
 	}
 
 	setEventListeners() {
@@ -84,16 +95,16 @@ class SettingsView {
 			this.handleChangeLanguage,
 		);
 
-		this.soundToggle.addEventListener('click', () => {
-			this.controller.toggleSound();
-		});
 		this.firstPlayerSelect.addEventListener(
 			'change',
 			this.handleChangeFirstPlayer,
 		);
-		this.darkModeToggle.addEventListener('change', (event) => {
-			this.controller.toggleDarkMode(event.target.checked);
-		});
+
+		this.soundToggle.addEventListener('click', this.handleToggleSound);
+
+		// this.darkModeToggle.addEventListener('change', (event) => {
+		// 	this.controller.toggleDarkMode(event.target.checked);
+		// });
 	}
 
 	handleButtonClick = (event) => {
@@ -103,14 +114,16 @@ class SettingsView {
 
 	handleChangeLanguage = (event) => {
 		const lang = event.target.value;
-		// this.languageSelect.value = lang;
 		this.controller.changeLanguage(lang);
 	};
 
 	handleChangeFirstPlayer = (event) => {
 		const sign = event.target.value;
-		// this.firstPlayerSelect.value = sign;
 		this.controller.changeFirstPlayer(sign);
+	};
+
+	handleToggleSound = () => {
+		this.controller.toggleSound();
 	};
 
 	cleanup() {

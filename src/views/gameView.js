@@ -1,5 +1,8 @@
 import cross from '../assets/svg/cross.inline.svg';
 import circle from '../assets/svg/circle.inline.svg';
+import crossSound from '../assets/sound/cross.m4a';
+import circleSound from '../assets/sound/circle.m4a';
+import lineSound from '../assets/sound/line.m4a';
 import { translations } from '../i18n/translations.js';
 
 import gameTemplate from './templates/game-template.html';
@@ -37,7 +40,6 @@ class GameView {
 			this.setBoardLines();
 		}
 
-		// this.setViewSettings(state.settings);
 		this.setViewState(state);
 	}
 
@@ -86,6 +88,16 @@ class GameView {
 
 	setBoardLines() {
 		const gameBoardElem = this.appRoot.querySelector('.game__board');
+		const boardLines = gameBoardElem.querySelectorAll(
+			'[data-js-board-line]',
+		);
+
+		boardLines.forEach((line) => {
+			line.addEventListener('animationstart', this.handleAnimatedSound, {
+				once: true,
+			});
+		});
+
 		for (let i = 1; i <= 4; i++) {
 			gameBoardElem.style.setProperty(
 				`--random-angle-${i}`,
@@ -93,6 +105,38 @@ class GameView {
 			);
 		}
 	}
+
+	playSound(soundType) {
+		if (!this.soundOn) {
+			return;
+		}
+		let sound;
+		switch (soundType) {
+			case 'cross':
+				sound = new Audio(crossSound);
+				sound.currentTime = 0.3;
+				break;
+			case 'circle':
+				sound = new Audio(circleSound);
+				sound.currentTime = 0.6;
+				break;
+			case 'line':
+				sound = new Audio(lineSound);
+				sound.currentTime = 0.3;
+				break;
+			default:
+				return;
+		}
+		sound.play().catch((error) => {
+			console.warn('Error playing sound:', error);
+		});
+	}
+
+	handleAnimatedSound = (event) => {
+		if (event.target.className.includes('line')) {
+			this.playSound('line');
+		}
+	};
 
 	handleButtonClick = (event) => {
 		const buttonId = event.currentTarget.id;
@@ -109,9 +153,8 @@ class GameView {
 
 	setViewState(state) {
 		this.changeLanguage(state.settings.language);
-		// this.changeFirstPlayer(state.settings.firstPlayer);
 		this.changeSound(state.settings.soundEnabled);
-		this.changeTheme(state.settings.darkMode);
+		// this.changeTheme(state.settings.darkMode);
 
 		this.setStatus(state);
 
@@ -119,10 +162,6 @@ class GameView {
 
 		this.setCurrentPlayer(state.turn);
 	}
-
-	// setViewSettings(settings) {
-	// 	console.log('first player in setViewSettings:', settings.firstPlayer);
-	// }
 
 	changeLanguage(language) {
 		this.language = language;
@@ -142,19 +181,20 @@ class GameView {
 			translations[language]['gameView']['winner3rdSpanElem'];
 	}
 
-	// changeFirstPlayer(firstPlayer) {
-	// 	this.setCurrentPlayer(firstPlayer);
-	// }
+	changeSound(soundEnabled) {
+		this.soundOn = soundEnabled;
+	}
 
-	changeSound(soundEnabled) {}
-
-	changeTheme(theme) {}
+	// changeTheme(theme) {}
 
 	setStatus(state) {
 		this.status = state.status;
 		if (this.status === 'finished') {
 			this.showWinDialog(state.winner);
-			this.drawWinLine(state.winner.winnerCells, state.winner.name);
+			setTimeout(() => {
+				this.drawWinLine(state.winner.winnerCells, state.winner.name);
+				this.playSound('line');
+			}, 1000);
 		} else if (this.status === 'draw') {
 			this.showWinDialog(state.winner);
 		}
@@ -166,9 +206,11 @@ class GameView {
 				if (state.board[index] === 'X') {
 					cell.innerHTML = this.crossIcon;
 					this.setRandomCellTranslate(cell);
+					this.playSound('cross');
 				} else if (state.board[index] === 'O') {
 					cell.innerHTML = this.circleIcon;
 					this.setRandomCellTranslate(cell);
+					this.playSound('circle');
 				}
 			}
 		});
