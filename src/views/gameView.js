@@ -175,7 +175,6 @@ class GameView {
 	}
 
 	setCurrentPlayer(turn) {
-		console.log('Current player:', turn);
 		if (turn === 'X') {
 			this.currentPlayerSignElem.innerHTML = this.crossIcon;
 			this.currentPlayerSignElem.style.setProperty('--color', 'red');
@@ -234,35 +233,36 @@ class GameView {
 		const startCellData =
 			this.cells[winnerCells[0]].getBoundingClientRect();
 		const endCellData = this.cells[winnerCells[2]].getBoundingClientRect();
+		const gameRect = this.gameElem.getBoundingClientRect();
 
 		const horizontalLineXY = {
-			x1: startCellData.x,
-			y1: startCellData.y + startCellData.height / 2,
-			x2: endCellData.x + endCellData.width,
-			y2: endCellData.y + endCellData.height / 2,
+			x1: startCellData.x - gameRect.x,
+			y1: startCellData.y - gameRect.y + startCellData.height / 2,
+			x2: endCellData.x - gameRect.x + endCellData.width,
+			y2: endCellData.y - gameRect.y + endCellData.height / 2,
 		};
 
 		const verticalLineXY = {
-			x1: startCellData.x + startCellData.width / 2,
-			y1: startCellData.y,
-			x2: endCellData.x + endCellData.width / 2,
-			y2: endCellData.y + endCellData.height,
+			x1: startCellData.x - gameRect.x + startCellData.width / 2,
+			y1: startCellData.y - gameRect.y,
+			x2: endCellData.x - gameRect.x + endCellData.width / 2,
+			y2: endCellData.y - gameRect.y + endCellData.height,
 		};
 
 		// Слева сверху в право вниз "\"
 		const diagonalLineXY1 = {
-			x1: startCellData.x,
-			y1: startCellData.y,
-			x2: endCellData.x + endCellData.width,
-			y2: endCellData.y + endCellData.height,
+			x1: startCellData.x - gameRect.x,
+			y1: startCellData.y - gameRect.y,
+			x2: endCellData.x - gameRect.x + endCellData.width,
+			y2: endCellData.y - gameRect.y + endCellData.height,
 		};
 
 		// Слева снизу в право вверх "/"
 		const diagonalLineXY2 = {
-			x1: startCellData.x + startCellData.width,
-			y1: startCellData.y,
-			x2: endCellData.x,
-			y2: endCellData.y + endCellData.height,
+			x1: startCellData.x - gameRect.x + startCellData.width,
+			y1: startCellData.y - gameRect.y,
+			x2: endCellData.x - gameRect.x,
+			y2: endCellData.y - gameRect.y + endCellData.height,
 		};
 
 		const winTypesObj = {
