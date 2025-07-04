@@ -41,6 +41,7 @@ class GameModel {
 	resetBoard() {
 		this.board = Array(9).fill(null);
 		this.winner = { name: null, winnerCells: [] };
+		this.turn = this.settings.firstPlayer || 'X';
 		this.changeStatus('undefined');
 		this.notifyUpdate();
 	}
