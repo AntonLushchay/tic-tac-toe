@@ -3,7 +3,7 @@ class SettingsModel {
 		this.language = 'en';
 		this.firstPlayer = 'X';
 		this.soundEnabled = true;
-		this.theme = 'light';
+		// this.theme = 'light';
 		this.observers = [];
 
 		this.loadSettings();
@@ -23,7 +23,7 @@ class SettingsModel {
 			language: this.language,
 			firstPlayer: this.firstPlayer,
 			soundEnabled: this.soundEnabled,
-			theme: this.theme,
+			// theme: this.theme,
 		};
 	}
 
@@ -34,7 +34,7 @@ class SettingsModel {
 			this.language = parsedSettings.language;
 			this.firstPlayer = parsedSettings.firstPlayer;
 			this.soundEnabled = parsedSettings.soundEnabled;
-			this.theme = parsedSettings.theme;
+			// this.theme = parsedSettings.theme;
 		}
 	}
 
@@ -60,11 +60,11 @@ class SettingsModel {
 		this.notifyUpdate();
 	}
 
-	toggleTheme() {
-		this.theme = this.theme === 'light' ? 'dark' : 'light';
-		this.saveSettings();
-		this.notifyUpdate();
-	}
+	// toggleTheme() {
+	// 	this.theme = this.theme === 'light' ? 'dark' : 'light';
+	// 	this.saveSettings();
+	// 	this.notifyUpdate();
+	// }
 }
 
 export default SettingsModel;

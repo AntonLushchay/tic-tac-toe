@@ -49,6 +49,10 @@ class SettingsController {
 		this.model.setFirstPlayer(sign);
 	}
 
+	toggleSound() {
+		this.model.toggleSound();
+	}
+
 	cleanup() {
 		if (this.view) {
 			this.view.cleanup();

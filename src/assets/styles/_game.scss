@@ -66,7 +66,6 @@
 		grid-template-columns: repeat(3, 100px);
 		gap: 4px;
 		justify-content: center;
-		// width: fit-content;
 		margin: 0 auto;
 
 		&-line {
@@ -170,7 +169,7 @@
 				#circle {
 					stroke-dasharray: 252;
 					stroke-dashoffset: 252;
-					animation: draw-circle-line 0.4s ease-in forwards;
+					animation: draw-circle-line 0.9s ease-in forwards;
 				}
 			}
 		}
