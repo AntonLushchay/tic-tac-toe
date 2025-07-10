@@ -1,6 +1,8 @@
 import GameModel from '../models/gameModel';
 import GameView from '../views/gameView';
 
+import aiMove from './components/aiMove';
+
 class GameController {
 	model;
 	view;
@@ -13,13 +15,22 @@ class GameController {
 		this.hash = 'game';
 	}
 
-	show(previousHash) {
+	show(previousHash, gameType) {
+		this.model.setGameType(gameType);
 		this.view.render(this.model.getState(), previousHash);
 	}
 
-	handleModelUpdate = (state) => {
+	handleModelUpdate = async (state) => {
 		this.view.render(state);
-		return;
+
+		if (
+			state.gameType === 'ai' &&
+			state.turn === 'O' &&
+			state.winner.name === null
+		) {
+			this.view.showAiThinking();
+			await this.makeAiMove(state.board, state.settings.aiDifficulty);
+		}
 	};
 
 	setSettings(settings) {
@@ -34,7 +45,7 @@ class GameController {
 				break;
 			case 'backButton':
 				window.location.hash = 'home';
-				this.model.resetBoard();
+				this.model.resetState();
 				break;
 			case 'dialogCloseButton':
 				this.view.hideDialog();
@@ -50,6 +61,13 @@ class GameController {
 
 	makeMove(cellID) {
 		this.model.setCell(cellID);
+	}
+
+	async makeAiMove(board, difficulty) {
+		const aiChoosenCell = await aiMove(board, difficulty);
+		console.log(`AI chose cell: ${aiChoosenCell}`);
+
+		this.model.setCell(aiChoosenCell);
 	}
 
 	cleanup() {

@@ -24,8 +24,8 @@ class SettingsView {
 	updateSettingsView(settings) {
 		this.changeLanguage(settings.language);
 		this.changeFirstPlayer(settings.firstPlayer);
+		this.changeAiDifficulty(settings.aiDifficulty);
 		this.changeSound(settings.soundEnabled);
-		// this.changeTheme(settings.theme === 'dark');
 	}
 
 	changeLanguage(lang) {
@@ -39,6 +39,15 @@ class SettingsView {
 			this.translation[lang]['settingsView']['language'];
 		this.selectPlayerLabel.textContent =
 			this.translation[lang]['settingsView']['firstPlayer'];
+		this.aiDifficultySelectLabel.textContent =
+			this.translation[lang]['settingsView']['aiDifficulty'];
+
+		this.aiDifficultySelect.querySelector('[value="easy"]').textContent =
+			this.translation[lang]['settingsView']['aiDifficultyEasy'];
+		this.aiDifficultySelect.querySelector('[value="medium"]').textContent =
+			this.translation[lang]['settingsView']['aiDifficultyMedium'];
+		this.aiDifficultySelect.querySelector('[value="hard"]').textContent =
+			this.translation[lang]['settingsView']['aiDifficultyHard'];
 
 		this.languageSelect.value = lang;
 		this.updatedTamplate = this.appRoot.innerHTML;
@@ -46,6 +55,10 @@ class SettingsView {
 
 	changeFirstPlayer(sign) {
 		this.firstPlayerSelect.value = sign;
+	}
+
+	changeAiDifficulty(difficulty) {
+		this.aiDifficultySelect.value = difficulty;
 	}
 
 	changeSound(soundEnabled) {
@@ -63,9 +76,6 @@ class SettingsView {
 		this.selectLanguageLabel = this.appRoot.querySelector(
 			'.settings__language-label',
 		);
-		this.selectPlayerLabel = this.appRoot.querySelector(
-			'.settings__player-label',
-		);
 
 		this.buttons = this.appRoot.querySelectorAll(
 			'[data-js-settings-button]',
@@ -73,16 +83,24 @@ class SettingsView {
 		this.languageSelect = this.appRoot.querySelector(
 			'[data-js-settings-language-select]',
 		);
+
+		this.selectPlayerLabel = this.appRoot.querySelector(
+			'.settings__player-label',
+		);
 		this.firstPlayerSelect = this.appRoot.querySelector(
 			'[data-js-settings-first-player-select]',
 		);
+
+		this.aiDifficultySelectLabel = this.appRoot.querySelector(
+			'.settings__ai-difficulty-label',
+		);
+		this.aiDifficultySelect = this.appRoot.querySelector(
+			'[data-js-settings-ai-difficulty-select]',
+		);
+
 		this.soundToggle = this.appRoot.querySelector(
 			'[data-js-settings-sound-toggle]',
 		);
-
-		// this.darkModeToggle = this.appRoot.querySelector(
-		// 	'[data-js-settings-dark-mode-toggle]',
-		// );
 	}
 
 	setEventListeners() {
@@ -100,11 +118,12 @@ class SettingsView {
 			this.handleChangeFirstPlayer,
 		);
 
-		this.soundToggle.addEventListener('click', this.handleToggleSound);
+		this.aiDifficultySelect.addEventListener(
+			'change',
+			this.handleChangeAiDifficulty,
+		);
 
-		// this.darkModeToggle.addEventListener('change', (event) => {
-		// 	this.controller.toggleDarkMode(event.target.checked);
-		// });
+		this.soundToggle.addEventListener('click', this.handleToggleSound);
 	}
 
 	handleButtonClick = (event) => {
@@ -120,6 +139,11 @@ class SettingsView {
 	handleChangeFirstPlayer = (event) => {
 		const sign = event.target.value;
 		this.controller.changeFirstPlayer(sign);
+	};
+
+	handleChangeAiDifficulty = (event) => {
+		const difficulty = event.target.value;
+		this.controller.changeAiDifficulty(difficulty);
 	};
 
 	handleToggleSound = () => {

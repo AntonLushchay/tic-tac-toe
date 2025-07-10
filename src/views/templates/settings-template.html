@@ -7,7 +7,7 @@
 					>Language:</label
 				>
 				<select
-					class="settings__select-language select"
+					class="settings__select-language"
 					name="language"
 					id="language-select"
 					data-js-settings-language-select
@@ -29,13 +29,31 @@
 					>First Player:</label
 				>
 				<select
-					class="settings__select-player select"
+					class="settings__select-player"
 					name="first-player"
 					id="first-player-select"
 					data-js-settings-first-player-select
 				>
 					<option value="X">X</option>
 					<option value="O">O</option>
+				</select>
+			</li>
+
+			<li>
+				<label
+					class="settings__ai-difficulty-label"
+					for="ai-difficulty-select"
+					>AI Difficulty:</label
+				>
+				<select
+					class="settings__select-ai-difficulty"
+					name="ai-difficulty"
+					id="ai-difficulty-select"
+					data-js-settings-ai-difficulty-select
+				>
+					<option value="easy">Easy</option>
+					<option value="medium">Medium</option>
+					<option value="hard">Hard</option>
 				</select>
 			</li>
 
@@ -50,15 +68,6 @@
 					</svg>
 				</button>
 			</li>
-			<!-- <li>
-				<label for="darkModeToggle">Dark Mode</label>
-
-				<input
-					type="checkbox"
-					id="darkModeToggle"
-					data-js-settings-dark-mode-toggle
-				/>
-			</li> -->
 		</ul>
 	</nav>
 	<button

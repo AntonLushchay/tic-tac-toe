@@ -12,8 +12,6 @@ class HomeView {
 
 		this.appRoot = appRoot;
 		this.controller = controller;
-
-		// this.bindEvents();
 	}
 
 	render(settings) {
@@ -32,7 +30,6 @@ class HomeView {
 
 	setSettings(settings) {
 		this.changeLanguage(settings.language);
-		// this.changeTheme(settings.theme);
 	}
 
 	changeLanguage(language) {
@@ -44,8 +41,6 @@ class HomeView {
 				this.translation[language]['homePage'][buttonId];
 		});
 	}
-
-	// changeTheme(theme) {}
 
 	handleButtonClick = (event) => {
 		const buttonId = event.currentTarget.id;

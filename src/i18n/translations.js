@@ -3,12 +3,17 @@ export const translations = {
 		homePage: {
 			title: 'Tic Tac Toe',
 			oneVsOnePlayButton: 'Play 1 vs 1',
+			oneVsAiPlayButton: 'Play 1 vs AI',
 			settingsButton: 'Settings',
 		},
 		settingsView: {
 			title: 'Settings',
 			language: 'Language',
 			firstPlayer: 'First player',
+			aiDifficulty: 'AI Difficulty',
+			aiDifficultyEasy: 'Easy',
+			aiDifficultyMedium: 'Medium',
+			aiDifficultyHard: 'Hard',
 			backButton: 'Back',
 		},
 		gameView: {
@@ -27,12 +32,17 @@ export const translations = {
 		homePage: {
 			title: 'Tic Tac Toe',
 			oneVsOnePlayButton: 'Jugar 1 vs 1',
+			oneVsAiPlayButton: 'Jugar 1 vs IA',
 			settingsButton: 'Configuración',
 		},
 		settingsView: {
 			title: 'Configuración',
 			language: 'Idioma',
 			firstPlayer: 'Primer jugador',
+			aiDifficulty: 'Dificultad IA',
+			aiDifficultyEasy: 'Fácil',
+			aiDifficultyMedium: 'Medio',
+			aiDifficultyHard: 'Difícil',
 			backButton: 'Atrás',
 		},
 		gameView: {
@@ -51,12 +61,17 @@ export const translations = {
 		homePage: {
 			title: 'Крестики-нолики',
 			oneVsOnePlayButton: 'Играть 1 на 1',
+			oneVsAiPlayButton: 'Играть 1 на ИИ',
 			settingsButton: 'Настройки',
 		},
 		settingsView: {
 			title: 'Настройки',
 			language: 'Язык',
 			firstPlayer: 'Первый игрок',
+			aiDifficulty: 'Сложность ИИ',
+			aiDifficultyEasy: 'Легкий',
+			aiDifficultyMedium: 'Средний',
+			aiDifficultyHard: 'Сложный',
 			backButton: 'Назад',
 		},
 		gameView: {

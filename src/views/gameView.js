@@ -154,7 +154,6 @@ class GameView {
 	setViewState(state) {
 		this.changeLanguage(state.settings.language);
 		this.changeSound(state.settings.soundEnabled);
-		// this.changeTheme(state.settings.darkMode);
 
 		this.setStatus(state);
 
@@ -184,8 +183,6 @@ class GameView {
 	changeSound(soundEnabled) {
 		this.soundOn = soundEnabled;
 	}
-
-	// changeTheme(theme) {}
 
 	setStatus(state) {
 		this.status = state.status;
@@ -225,6 +222,8 @@ class GameView {
 			this.currentPlayerSignElem.style.setProperty('--color', 'blue');
 		}
 	}
+
+	showAiThinking() {}
 
 	showWinDialog(winner) {
 		this.updateWinDialog(winner.name);

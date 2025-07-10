@@ -3,6 +3,7 @@ class GameModel {
 	turn;
 	status = 'undefined';
 	winner = { name: null, winnerCells: [] };
+	gameType = 'player';
 	player1 = 'X';
 	player2 = 'O';
 	observers = [];
@@ -27,8 +28,13 @@ class GameModel {
 			turn: this.turn,
 			status: this.status,
 			winner: this.winner,
+			gameType: this.gameType,
 			settings: this.settings,
 		};
+	}
+
+	setGameType(gameType) {
+		this.gameType = gameType;
 	}
 
 	setSettings(settings) {
@@ -44,6 +50,13 @@ class GameModel {
 		this.turn = this.settings.firstPlayer || 'X';
 		this.changeStatus('undefined');
 		this.notifyUpdate();
+	}
+
+	resetState() {
+		this.board = Array(9).fill(null);
+		this.winner = { name: null, winnerCells: [] };
+		this.turn = this.settings.firstPlayer || 'X';
+		this.changeStatus('undefined');
 	}
 
 	setCell(index) {
