@@ -19,6 +19,7 @@ export const translations = {
 		gameView: {
 			title: 'Game field',
 			currentPlayer: 'Current Player:',
+			aiThinking: 'AI is thinking',
 			restartButton: 'Restart',
 			backButton: 'Back',
 			dialogCloseButton: 'Close',
@@ -48,6 +49,7 @@ export const translations = {
 		gameView: {
 			title: 'Campo de juego',
 			currentPlayer: 'Jugador actual:',
+			aiThinking: 'La IA está pensando',
 			restartButton: 'Reiniciar',
 			backButton: 'Atrás',
 			winner1stSpanElem: '¡El jugador',
@@ -77,6 +79,7 @@ export const translations = {
 		gameView: {
 			title: 'Игровое поле',
 			currentPlayer: 'Текущий игрок:',
+			aiThinking: 'ИИ думает',
 			restartButton: 'Перезапустить',
 			backButton: 'Назад',
 			winner1stSpanElem: 'Игрок ',

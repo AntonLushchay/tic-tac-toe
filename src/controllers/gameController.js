@@ -30,6 +30,7 @@ class GameController {
 		) {
 			this.view.showAiThinking();
 			await this.makeAiMove(state.board, state.settings.aiDifficulty);
+			this.view.showAiThinking();
 		}
 	};
 

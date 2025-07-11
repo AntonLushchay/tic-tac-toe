@@ -1,14 +1,18 @@
 async function aiMove(board, difficulty) {
 	let model;
+	let temperature;
 	if (difficulty === 'easy') {
 		model = 'gemini-2.5-flash-lite-preview-06-17';
+		temperature = 2.0;
 	} else if (difficulty === 'medium') {
 		model = 'gemini-2.5-flash';
+		temperature = 1.0;
 	} else if (difficulty === 'hard') {
 		model = 'gemini-2.5-pro';
+		temperature = 0.5;
 	}
 
-	const API_KEY = 'AIzaSyBte30-nIqV8LgoC16l89A7bkvm8juJYZg';
+	const API_KEY = process.env.GEMINI_API_KEY;
 
 	const prompt = `You are playing tic-tac-toe as 'O'.
 		Board state (positions 0-8): ${board.map((cell, i) => `${i}:${cell || 'empty'}`).join(', ')}
@@ -35,6 +39,9 @@ async function aiMove(board, difficulty) {
 							],
 						},
 					],
+					generationConfig: {
+						temperature: temperature,
+					},
 				}),
 			},
 		);

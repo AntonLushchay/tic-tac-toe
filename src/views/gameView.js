@@ -52,6 +52,9 @@ class GameView {
 		this.currentPlayerSignElem = this.appRoot.querySelector(
 			'.game__current-player-name',
 		);
+		this.aiThinkingElem = this.appRoot.querySelector(
+			'[data-js-game-ai-thinking]',
+		);
 		this.cells = this.appRoot.querySelectorAll('[data-js-game-cell]');
 		this.buttons = this.appRoot.querySelectorAll('[data-js-game-button]');
 		this.winBoardLine = this.appRoot.querySelector(
@@ -174,6 +177,9 @@ class GameView {
 			translations[language]['gameView']['title'];
 		this.currentPlayerLabelElem.textContent =
 			translations[language]['gameView']['currentPlayer'];
+		this.aiThinkingElem.textContent =
+			translations[language]['gameView']['aiThinking'];
+
 		this.winner1stSpanElem.textContent =
 			translations[language]['gameView']['winner1stSpanElem'];
 		this.winner3rdSpanElem.textContent =
@@ -223,7 +229,9 @@ class GameView {
 		}
 	}
 
-	showAiThinking() {}
+	showAiThinking() {
+		this.aiThinkingElem.classList.toggle('game__ai-thinking--active');
+	}
 
 	showWinDialog(winner) {
 		this.updateWinDialog(winner.name);
