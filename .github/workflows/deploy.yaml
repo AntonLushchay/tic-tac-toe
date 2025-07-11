@@ -25,12 +25,14 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
 
-            - name: Build and deploy
+            - name: Install dependencies and build
+              env:
+                  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
               run: |
                   npm install
                   npm run build
 
-            - name: deploy
+            - name: Deploy to GitHub Pages
               uses: JamesIves/github-pages-deploy-action@v4
               with:
                   branch: gh-pages
