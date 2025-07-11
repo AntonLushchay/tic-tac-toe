@@ -54,6 +54,24 @@
 		}
 	}
 
+	&__ai-thinking {
+		font-size: 1.2rem;
+		color: transparent;
+		text-align: center;
+
+		&--active {
+			color: #666;
+
+			&::after {
+				display: inline-block;
+				width: 1em;
+				text-align: left;
+				content: '.';
+				animation: ellipsis 1.5s infinite;
+			}
+		}
+	}
+
 	&__board {
 		--random-angle-1: 90deg;
 		--random-angle-2: 90deg;
@@ -321,5 +339,19 @@
 
 	to {
 		background: rgb(0 0 0 / 50%);
+	}
+}
+
+@keyframes ellipsis {
+	0% {
+		content: '.';
+	}
+
+	33% {
+		content: '..';
+	}
+
+	66% {
+		content: '...';
 	}
 }

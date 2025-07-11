@@ -49,6 +49,10 @@ class SettingsController {
 		this.model.setFirstPlayer(sign);
 	}
 
+	changeAiDifficulty(difficulty) {
+		this.model.setAiDifficulty(difficulty);
+	}
+
 	toggleSound() {
 		this.model.toggleSound();
 	}

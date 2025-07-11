@@ -54,6 +54,12 @@ class AppController {
 		switch (this.newHash) {
 			case 'game':
 				nextController = this.gameController;
+				this.gameType = 'player';
+				break;
+
+			case 'game?type=ai':
+				nextController = this.gameController;
+				this.gameType = 'ai';
 				break;
 
 			case 'settings':
@@ -67,7 +73,7 @@ class AppController {
 		}
 
 		if (nextController && nextController.show) {
-			nextController.show(this.previousHash);
+			nextController.show(this.previousHash, this.gameType);
 			this.currentController = nextController;
 		} else {
 			console.warn(

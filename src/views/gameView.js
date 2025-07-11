@@ -52,6 +52,9 @@ class GameView {
 		this.currentPlayerSignElem = this.appRoot.querySelector(
 			'.game__current-player-name',
 		);
+		this.aiThinkingElem = this.appRoot.querySelector(
+			'[data-js-game-ai-thinking]',
+		);
 		this.cells = this.appRoot.querySelectorAll('[data-js-game-cell]');
 		this.buttons = this.appRoot.querySelectorAll('[data-js-game-button]');
 		this.winBoardLine = this.appRoot.querySelector(
@@ -154,7 +157,6 @@ class GameView {
 	setViewState(state) {
 		this.changeLanguage(state.settings.language);
 		this.changeSound(state.settings.soundEnabled);
-		// this.changeTheme(state.settings.darkMode);
 
 		this.setStatus(state);
 
@@ -175,6 +177,9 @@ class GameView {
 			translations[language]['gameView']['title'];
 		this.currentPlayerLabelElem.textContent =
 			translations[language]['gameView']['currentPlayer'];
+		this.aiThinkingElem.textContent =
+			translations[language]['gameView']['aiThinking'];
+
 		this.winner1stSpanElem.textContent =
 			translations[language]['gameView']['winner1stSpanElem'];
 		this.winner3rdSpanElem.textContent =
@@ -184,8 +189,6 @@ class GameView {
 	changeSound(soundEnabled) {
 		this.soundOn = soundEnabled;
 	}
-
-	// changeTheme(theme) {}
 
 	setStatus(state) {
 		this.status = state.status;
@@ -224,6 +227,10 @@ class GameView {
 			this.currentPlayerSignElem.innerHTML = this.circleIcon;
 			this.currentPlayerSignElem.style.setProperty('--color', 'blue');
 		}
+	}
+
+	showAiThinking() {
+		this.aiThinkingElem.classList.toggle('game__ai-thinking--active');
 	}
 
 	showWinDialog(winner) {

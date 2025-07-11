@@ -1,6 +1,7 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import Dotenv from 'dotenv-webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
@@ -13,6 +14,7 @@ export default (env, argv) => {
 	const isProduction = argv.mode === 'production';
 
 	const basePlugins = [
+		new Dotenv(),
 		new HtmlWebpackPlugin({
 			template: './src/index.html',
 			filename: 'index.html',

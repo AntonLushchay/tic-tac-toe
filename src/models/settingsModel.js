@@ -3,7 +3,7 @@ class SettingsModel {
 		this.language = 'en';
 		this.firstPlayer = 'X';
 		this.soundEnabled = true;
-		// this.theme = 'light';
+		this.aiDifficulty = 'easy';
 		this.observers = [];
 
 		this.loadSettings();
@@ -22,8 +22,8 @@ class SettingsModel {
 		return {
 			language: this.language,
 			firstPlayer: this.firstPlayer,
+			aiDifficulty: this.aiDifficulty,
 			soundEnabled: this.soundEnabled,
-			// theme: this.theme,
 		};
 	}
 
@@ -33,8 +33,8 @@ class SettingsModel {
 			const parsedSettings = JSON.parse(savedSettings);
 			this.language = parsedSettings.language;
 			this.firstPlayer = parsedSettings.firstPlayer;
+			this.aiDifficulty = parsedSettings.aiDifficulty;
 			this.soundEnabled = parsedSettings.soundEnabled;
-			// this.theme = parsedSettings.theme;
 		}
 	}
 
@@ -54,17 +54,17 @@ class SettingsModel {
 		this.notifyUpdate();
 	}
 
+	setAiDifficulty(difficulty) {
+		this.aiDifficulty = difficulty;
+		this.saveSettings();
+		this.notifyUpdate();
+	}
+
 	toggleSound() {
 		this.soundEnabled = !this.soundEnabled;
 		this.saveSettings();
 		this.notifyUpdate();
 	}
-
-	// toggleTheme() {
-	// 	this.theme = this.theme === 'light' ? 'dark' : 'light';
-	// 	this.saveSettings();
-	// 	this.notifyUpdate();
-	// }
 }
 
 export default SettingsModel;

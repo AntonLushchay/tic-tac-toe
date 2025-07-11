@@ -15,7 +15,6 @@ class HomeController {
 	}
 
 	setSettings(settings) {
-		// this.view.setSettings(settings);
 		this.settings = settings;
 	}
 
@@ -23,6 +22,9 @@ class HomeController {
 		switch (buttonId) {
 			case 'oneVsOnePlayButton':
 				window.location.hash = 'game';
+				break;
+			case 'oneVsAiPlayButton':
+				window.location.hash = 'game?type=ai';
 				break;
 			case 'settingsButton':
 				window.location.hash = 'settings';
