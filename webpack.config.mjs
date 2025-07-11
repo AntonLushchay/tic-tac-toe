@@ -14,7 +14,9 @@ export default (env, argv) => {
 	const isProduction = argv.mode === 'production';
 
 	const basePlugins = [
-		new Dotenv(),
+		new Dotenv({
+			systemvars: true,
+		}),
 		new HtmlWebpackPlugin({
 			template: './src/index.html',
 			filename: 'index.html',
