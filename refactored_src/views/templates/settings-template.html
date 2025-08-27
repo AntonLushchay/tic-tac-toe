@@ -1,0 +1,80 @@
+<div class="settings">
+	<h1 class="settings__title">Settings</h1>
+	<nav class="settings__nav">
+		<ul>
+			<li>
+				<label class="settings__language-label" for="language-select"
+					>Language:</label
+				>
+				<select
+					class="settings__select-language"
+					name="language"
+					id="language-select"
+					data-js-settings-language-select
+				>
+					<option class="settings__language-option" value="en">
+						English
+					</option>
+					<option class="settings__language-option" value="ru">
+						Русский
+					</option>
+					<option class="settings__language-option" value="es">
+						Español
+					</option>
+				</select>
+			</li>
+
+			<li>
+				<label class="settings__player-label" for="first-player-select"
+					>First Player:</label
+				>
+				<select
+					class="settings__select-player"
+					name="first-player"
+					id="first-player-select"
+					data-js-settings-first-player-select
+				>
+					<option value="X">X</option>
+					<option value="O">O</option>
+				</select>
+			</li>
+
+			<li>
+				<label
+					class="settings__ai-difficulty-label"
+					for="ai-difficulty-select"
+					>AI Difficulty:</label
+				>
+				<select
+					class="settings__select-ai-difficulty"
+					name="ai-difficulty"
+					id="ai-difficulty-select"
+					data-js-settings-ai-difficulty-select
+				>
+					<option value="easy">Easy</option>
+					<option value="medium">Medium</option>
+					<option value="hard">Hard</option>
+				</select>
+			</li>
+
+			<li>
+				<button
+					class="settings__sound-button"
+					id="soundButton"
+					data-js-settings-sound-toggle
+				>
+					<svg class="settings__icon">
+						<use href="../../assets/svg/sound.svg"></use>
+					</svg>
+				</button>
+			</li>
+		</ul>
+	</nav>
+	<button
+		class="settings__back-button button"
+		id="backButton"
+		data-js-settings-button
+	>
+		Back
+	</button>
+</div>

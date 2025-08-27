@@ -1,0 +1,357 @@
+.game {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+	width: 100%;
+
+	&__title {
+		margin: 20px 0;
+		font-size: 2.5rem;
+		font-weight: bold;
+		color: #333;
+		text-align: center;
+	}
+
+	&__settings-button {
+		position: absolute;
+		top: 50px;
+		left: 200px;
+		background-color: transparent;
+		border: none;
+
+		@media (width <= 800px) {
+			left: 5px;
+		}
+
+		svg {
+			width: 50px;
+			height: 50px;
+		}
+	}
+
+	&__current-player {
+		display: flex;
+		column-gap: 10px;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.5rem;
+		color: #666;
+		text-align: center;
+
+		&-name {
+			--color: black;
+
+			align-items: center;
+			vertical-align: middle;
+			color: var(--color);
+		}
+
+		svg {
+			width: 30px;
+			height: 30px;
+			filter: url('#pencil-sketch-filter');
+		}
+	}
+
+	&__ai-thinking {
+		font-size: 1.2rem;
+		color: transparent;
+		text-align: center;
+
+		&--active {
+			color: #666;
+
+			&::after {
+				display: inline-block;
+				width: 1em;
+				text-align: left;
+				content: '.';
+				animation: ellipsis 1.5s infinite;
+			}
+		}
+	}
+
+	&__board {
+		--random-angle-1: 90deg;
+		--random-angle-2: 90deg;
+		--random-angle-3: 0deg;
+		--random-angle-4: 0deg;
+
+		position: relative;
+		display: grid;
+		grid-template-rows: repeat(3, 100px);
+		grid-template-columns: repeat(3, 100px);
+		gap: 4px;
+		justify-content: center;
+		margin: 0 auto;
+
+		&-line {
+			position: absolute;
+			background-color: #4a4949;
+			filter: url('#pencil-sketch-filter');
+
+			&--v1 {
+				left: 33%;
+				width: 4px;
+				height: 100%;
+				clip-path: inset(0 0 100% 0);
+				transform: rotate(var(--random-angle-1));
+				animation: draw-vertical-line 0.25s ease-in forwards;
+				animation-delay: 0s;
+			}
+
+			&--v2 {
+				left: 66%;
+				width: 4px;
+				height: 100%;
+				clip-path: inset(0 0 100% 0);
+				transform: rotate(var(--random-angle-2));
+				animation: draw-vertical-line 0.25s ease-in forwards;
+				animation-delay: 0.4s;
+			}
+
+			&--h1 {
+				top: 33%;
+				width: 100%;
+				height: 4px;
+				clip-path: inset(0 0 100% 0);
+				transform: rotate(var(--random-angle-3));
+				animation: draw-horizontal-line 0.25s ease-in forwards;
+				animation-delay: 1s;
+			}
+
+			&--h2 {
+				top: 66%;
+				width: 100%;
+				height: 4px;
+				clip-path: inset(0 0 100% 0);
+				transform: rotate(var(--random-angle-4));
+				animation: draw-horizontal-line 0.25s ease-in forwards;
+				animation-delay: 1.4s;
+			}
+		}
+	}
+
+	&__cell {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: transparent;
+
+		&:hover {
+			background: radial-gradient(
+				closest-side,
+				rgb(187 188 186 / 40%) 20%,
+				transparent 100%
+			);
+		}
+
+		&:active {
+			background: radial-gradient(
+				closest-side,
+				rgb(110 110 110 / 40%) 30%,
+				transparent 100%
+			);
+		}
+
+		svg {
+			z-index: 1;
+			display: block;
+			filter: url('#pencil-sketch-filter');
+
+			&.cross-svg {
+				width: 90%;
+				height: 90%;
+				color: red;
+
+				#cross-line1 {
+					stroke-dasharray: 85;
+					stroke-dashoffset: 85;
+					animation: draw-cross-line 0.2s ease-in forwards;
+				}
+
+				#cross-line2 {
+					stroke-dasharray: 85;
+					stroke-dashoffset: 85;
+					animation: draw-cross-line 0.2s ease-in forwards;
+					animation-delay: 0.4s;
+				}
+			}
+
+			&.circle-svg {
+				width: 80%;
+				height: 80%;
+				color: blue;
+
+				#circle {
+					stroke-dasharray: 252;
+					stroke-dashoffset: 252;
+					animation: draw-circle-line 0.9s ease-in forwards;
+				}
+			}
+		}
+	}
+
+	&__win-line {
+		--left-indent: 0;
+		--top-indent: 0;
+		--line-length: 0;
+		--angle: 0deg;
+		--color: black;
+
+		position: absolute;
+		top: var(--top-indent);
+		left: var(--left-indent);
+		z-index: 2;
+		width: var(--line-length);
+		height: 4px;
+		background-color: var(--color);
+		filter: url('#pencil-sketch-filter');
+		transform: rotate(var(--angle));
+		transform-origin: top left;
+
+		&--active {
+			clip-path: inset(0 0 100% 0);
+			animation: draw-horizontal-line 0.4s ease-in forwards;
+			animation-delay: 0s;
+		}
+	}
+
+	&__button-container {
+		display: flex;
+		flex-direction: column;
+		row-gap: 20px;
+		justify-content: center;
+		margin-top: 30px;
+	}
+
+	> svg {
+		position: absolute;
+		width: 10px;
+		height: 10px;
+	}
+}
+
+.dialog {
+	--background-color: white;
+
+	position: fixed;
+	top: 35%;
+	width: 400px;
+	height: 200px;
+	background-color: var(--background-color);
+
+	&[open] {
+		animation: dialog-appear 0.5s ease-out forwards;
+
+		&::backdrop {
+			animation: dialog-backdrop-appear 0.5s ease-out forwards;
+		}
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		row-gap: 50px;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&__game-winner {
+		display: flex;
+		flex-direction: row;
+		column-gap: 15px;
+		align-items: center;
+		justify-content: center;
+		font-size: 30px;
+	}
+
+	&__game-winner--2nd-span {
+		--color: black;
+
+		color: var(--color);
+
+		svg {
+			width: 50px;
+			height: 50px;
+			filter: url('#pencil-sketch-filter');
+		}
+	}
+}
+
+@keyframes draw-vertical-line {
+	from {
+		clip-path: inset(0 0 100% 0);
+	}
+
+	to {
+		clip-path: inset(0 0 0 0);
+	}
+}
+
+@keyframes draw-horizontal-line {
+	from {
+		clip-path: inset(0 100% 0 0);
+	}
+
+	to {
+		clip-path: inset(0 0 0 0);
+	}
+}
+
+@keyframes draw-cross-line {
+	from {
+		stroke-dashoffset: 85;
+	}
+
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes draw-circle-line {
+	from {
+		stroke-dashoffset: 252;
+	}
+
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes dialog-appear {
+	from {
+		opacity: 0;
+		transform: scale(0.8);
+	}
+
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes dialog-backdrop-appear {
+	from {
+		background: rgb(0 0 0 / 0%);
+	}
+
+	to {
+		background: rgb(0 0 0 / 50%);
+	}
+}
+
+@keyframes ellipsis {
+	0% {
+		content: '.';
+	}
+
+	33% {
+		content: '..';
+	}
+
+	66% {
+		content: '...';
+	}
+}

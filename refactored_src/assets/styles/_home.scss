@@ -1,0 +1,19 @@
+.home {
+	display: flex;
+	flex-direction: column;
+	row-gap: 5vh;
+	align-items: center;
+	justify-content: center;
+	max-width: 1440px;
+	margin-top: 5vh;
+
+	&__title {
+		margin-top: 10%;
+	}
+
+	&__menu {
+		display: flex;
+		flex-direction: column;
+		row-gap: 2vh;
+	}
+}
