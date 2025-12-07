@@ -11,6 +11,8 @@
 ![Webpack](https://img.shields.io/badge/Webpack-444444?logo=webpack)
 ![Babel](https://img.shields.io/badge/Babel-444444?logo=babel)
 ![ESLint](https://img.shields.io/badge/ESLint-444444?logo=eslint)
+![Prettier](https://img.shields.io/badge/Prettier-444444?logo=prettier)
+![Stylelint](https://img.shields.io/badge/Stylelint-444444?logo=stylelint)
 ![Gemini](https://img.shields.io/badge/AI-444444?logo=google)
 
 Современная реализация классической игры "Крестики-нолики", разработанная как Single Page Application (SPA). Проект демонстрирует применение объектно-ориентированного подхода и архитектурного паттерна MVC на чистом JavaScript, а также интеграцию с нейросетью Google Gemini для создания умного противника.
